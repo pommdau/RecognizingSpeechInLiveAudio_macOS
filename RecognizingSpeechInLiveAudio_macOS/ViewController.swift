@@ -30,11 +30,24 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
         
         // Disable the record buttons until authorization has been granted.
         recordButton.isEnabled = false
+        
+        // 設定ウィンドウからの通知を受け取る設定
+        let notificationNames = [Notification.Name(rawValue: advancedPreferencesChangedNotificationIdentifier)]
+        for notificationName in notificationNames {
+            NotificationCenter.default.addObserver(forName: notificationName,
+                                                   object: nil,
+                                                   queue: nil) {
+                                                    (notification) in
+                                                    self.configureTextView()
+            }
+        }
     }
     
     public override func viewDidAppear() {
         super.viewDidAppear()
-        
+        textView.string = "私は結果もうその意味屋というのの時に悟っだたく。依然として十一月で授業者もようやくこの断食ありうでもが誘き寄せるが行くですには戦争曲げんたから、そうには好かでたないござい。隙間にしたのはどうも時間に同時にですでまい。ざっと岡田さんに成就人実際出立が見るた例この精神おれか参考にについてご話たますないたて、この結果は何か金力仲間に入っと、ネルソンさんの訳が一つの私がどうしてもご影響とよるからあなた一口から小＃「が思っようにちゃんとご運動をつけんましば、さきほどたしか話にしでのにみだ方に騒ぐだます。"
+        configureTextView()
+        /*
         // Configure the SFSpeechRecognizer object already
         // stored in a local member variable.
         speechRecognizer.delegate = self
@@ -66,6 +79,7 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
                 }
             }
         }
+ */
     }
     
     private func startRecording() throws {
@@ -135,6 +149,28 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
         
         // Let the user know to start talking.
         self.textView.insertText("(Macに語りかけてください!)", replacementRange: NSRange(location: -1, length: 0))
+    }
+    
+    // MARK: - Helpers
+    
+    private func configureTextView() {
+        let advancedPreferences = AdvancedPreferences()
+        
+        
+        
+        let attributes: [NSAttributedString.Key : Any] = [
+            .font : NSFont(name: advancedPreferences.font.fontName, size: advancedPreferences.font.pointSize)
+                ?? NSFont.boldSystemFont(ofSize: CGFloat(24)),
+            .foregroundColor : advancedPreferences.fontColor,
+            .strokeColor : advancedPreferences.strokeColor,
+            .strokeWidth : -advancedPreferences.strokeWidth
+        ]
+        
+        let attibutesString = NSAttributedString(string: textView.string,
+                                                 attributes: attributes)
+        textView.textStorage?.setAttributedString(attibutesString)
+        textView.typingAttributes = attributes
+        textView.layer?.opacity = advancedPreferences.opacity
     }
     
     // MARK: SFSpeechRecognizerDelegate
