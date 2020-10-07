@@ -724,7 +724,7 @@
                         <subviews>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NJq-QW-dtj">
                                 <rect key="frame" x="20" y="60" width="661" height="286"/>
-                                <clipView key="contentView" copiesOnScroll="NO" id="0nV-JF-T5R">
+                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="0nV-JF-T5R">
                                     <rect key="frame" x="0.0" y="0.0" width="661" height="286"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>

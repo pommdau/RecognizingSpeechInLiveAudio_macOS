@@ -13,62 +13,62 @@ class GeneralPreferences {
     
     static let shared =  GeneralPreferences()
     
-    enum UserDefaultsKey: String {
-        case GEP_IsOverlay
-        case GEP_showingTitleBar
-        case GEP_Language
-        case GEP_WindowFrame
+    private enum UserDefaultsKey: String {
+        case IsOverlay
+        case ShowingTitleBar
+        case Language
+        case WindowFrame
     }
     
     init() {
         UserDefaults.standard.register(defaults: [
-            UserDefaultsKey.GEP_IsOverlay.rawValue : false,
-            UserDefaultsKey.GEP_showingTitleBar.rawValue : true,
-            UserDefaultsKey.GEP_Language.rawValue : "ja-JP"
+            UserDefaultsKey.IsOverlay.rawValue : false,
+            UserDefaultsKey.ShowingTitleBar.rawValue : true,
+            UserDefaultsKey.Language.rawValue : "ja-JP"
         ])
     }
     
     // For Debug
     private func resetUserDefaults() {
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.GEP_IsOverlay.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.GEP_showingTitleBar.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.GEP_WindowFrame.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.IsOverlay.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.ShowingTitleBar.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.WindowFrame.rawValue)
     }
     
     var isOverlay: NSControl.StateValue {
         get {
-            return NSControl.StateValue(UserDefaults.standard.integer(forKey: UserDefaultsKey.GEP_IsOverlay.rawValue))
+            return NSControl.StateValue(UserDefaults.standard.integer(forKey: UserDefaultsKey.IsOverlay.rawValue))
         }
         
         set(isOverlay) {
-            UserDefaults.standard.set(isOverlay, forKey: UserDefaultsKey.GEP_IsOverlay.rawValue)
+            UserDefaults.standard.set(isOverlay, forKey: UserDefaultsKey.IsOverlay.rawValue)
         }
     }
     
     var showingTitleBar: NSControl.StateValue {
         get {
-            return NSControl.StateValue(UserDefaults.standard.integer(forKey: UserDefaultsKey.GEP_showingTitleBar.rawValue))
+            return NSControl.StateValue(UserDefaults.standard.integer(forKey: UserDefaultsKey.ShowingTitleBar.rawValue))
         }
         
         set(isFullScreen) {
-            UserDefaults.standard.set(isFullScreen, forKey: UserDefaultsKey.GEP_showingTitleBar.rawValue)
+            UserDefaults.standard.set(isFullScreen, forKey: UserDefaultsKey.ShowingTitleBar.rawValue)
         }
     }
     
     var language: String {
         get {
-            return UserDefaults.standard.string(forKey: UserDefaultsKey.GEP_Language.rawValue) ?? "ja-JP"
+            return UserDefaults.standard.string(forKey: UserDefaultsKey.Language.rawValue) ?? "ja-JP"
         }
         
         set(language) {
-            UserDefaults.standard.set(language, forKey: UserDefaultsKey.GEP_Language.rawValue)
+            UserDefaults.standard.set(language, forKey: UserDefaultsKey.Language.rawValue)
         }
     }
     
     /// Windowの位置と大きさを保存する（SplitViewの表示の際のためのもの）
     var windowFrame: NSRect {
         get {
-            guard let windowFrameString = UserDefaults.standard.string(forKey: UserDefaultsKey.GEP_WindowFrame.rawValue) else {
+            guard let windowFrameString = UserDefaults.standard.string(forKey: UserDefaultsKey.WindowFrame.rawValue) else {
                return NSRect(x: 450, y: 200, width: 1000, height: 750)
             }
             let windowFrame = NSRectFromString(windowFrameString)
@@ -76,7 +76,7 @@ class GeneralPreferences {
         }
         
         set (windowFrame) {
-            UserDefaults.standard.set(NSStringFromRect(windowFrame), forKey: UserDefaultsKey.GEP_WindowFrame.rawValue)
+            UserDefaults.standard.set(NSStringFromRect(windowFrame), forKey: UserDefaultsKey.WindowFrame.rawValue)
         }
     }
 }

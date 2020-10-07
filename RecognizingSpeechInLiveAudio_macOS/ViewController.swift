@@ -13,7 +13,7 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
 
     // MARK: Properties
     
-    private var speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ja-JP"))!
+    private var speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: GeneralPreferences.shared.language))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
@@ -45,7 +45,7 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
         NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: generalPreferencesChangedNotificationIdentifier),
                                                object: nil,
                                                queue: nil) { (notification) in
-            
+            self.initializeSpeechSettings()
         }
         NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: advancedPreferencesChangedNotificationIdentifier),
                                                object: nil,
@@ -58,35 +58,7 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
         super.viewDidAppear()
         
         configureTextView()
-
-        // Configure the SFSpeechRecognizer object already
-        // stored in a local member variable.
-        speechRecognizer.delegate = self
-        
-        // Asynchronously make the authorization request.
-        SFSpeechRecognizer.requestAuthorization { authStatus in
-
-            // Divert to the app's main thread so that the UI
-            // can be updated.
-            OperationQueue.main.addOperation {
-                switch authStatus {
-                case .authorized:
-                    self.recordingStatus = .isReadyRecording
-                case .denied:
-                    self.recordingStatus = .isNotReadyRecording
-                    self.textView.string = "User denied access to speech recognition"
-                case .restricted:
-                    self.recordingStatus = .isNotReadyRecording
-                    self.textView.string = "Speech recognition restricted on this device"
-                case .notDetermined:
-                    self.recordingStatus = .isNotReadyRecording
-                    self.textView.string = "Speech recognition not yet authorized"
-                default:
-                    self.recordingStatus = .isNotReadyRecording
-                }
-            }
-        }
-
+        initializeSpeechSettings()
     }
     
     private func startRecording() throws {
@@ -160,6 +132,39 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
     }
     
     // MARK: - Helpers
+    
+    private func initializeSpeechSettings() {
+        
+        speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: GeneralPreferences.shared.language))!
+        
+        // Configure the SFSpeechRecognizer object already
+        // stored in a local member variable.
+        speechRecognizer.delegate = self
+        
+        // Asynchronously make the authorization request.
+        SFSpeechRecognizer.requestAuthorization { authStatus in
+
+            // Divert to the app's main thread so that the UI
+            // can be updated.
+            OperationQueue.main.addOperation {
+                switch authStatus {
+                case .authorized:
+                    self.recordingStatus = .isReadyRecording
+                case .denied:
+                    self.recordingStatus = .isNotReadyRecording
+                    self.textView.string = "User denied access to speech recognition"
+                case .restricted:
+                    self.recordingStatus = .isNotReadyRecording
+                    self.textView.string = "Speech recognition restricted on this device"
+                case .notDetermined:
+                    self.recordingStatus = .isNotReadyRecording
+                    self.textView.string = "Speech recognition not yet authorized"
+                default:
+                    self.recordingStatus = .isNotReadyRecording
+                }
+            }
+        }
+    }
     
     private func configureSettings() {
 //        speechRecognizer.locale = Locale(identifier: GeneralPreferences.shared.language)

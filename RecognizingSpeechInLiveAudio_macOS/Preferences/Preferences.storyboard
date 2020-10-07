@@ -109,7 +109,7 @@
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="p2G-ZI-lgl">
                                         <items>
-                                            <menuItem title="Japanese" state="on" id="nNY-5i-VDO"/>
+                                            <menuItem title="Japanese" state="on" identifier="ja-JP" id="nNY-5i-VDO"/>
                                             <menuItem title="English" identifier="en-US" id="sE2-lf-AEJ"/>
                                         </items>
                                     </menu>
