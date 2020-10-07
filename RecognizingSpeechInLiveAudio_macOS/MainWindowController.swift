@@ -56,10 +56,10 @@ class MainWindowController: NSWindowController {
         
         if (generalPreferences.isOverlay == NSControl.StateValue.on) {
             window?.ignoresMouseEvents = true
-            window?.title = NSLocalizedString("MainWindowTitleInOverlay", comment: "")
+            window?.title = NSLocalizedString("Recognizing Speech - in overlay", comment: "")
         } else {
             window?.ignoresMouseEvents = false
-            window?.title = NSLocalizedString("MainWindowTitle", comment: "")
+            window?.title = NSLocalizedString("Recognizing Speech", comment: "")
         }
         
         // フルスクリーン状態か

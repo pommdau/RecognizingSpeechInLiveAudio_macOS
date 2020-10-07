@@ -23,13 +23,20 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
     @IBOutlet weak var recordButton: NSButton!
     @IBOutlet weak var clearButton: NSButton!
     
+    private enum RecordStatus: String {
+        case isNotReadyRecording
+        case isReadyRecording
+        case isRecording
+        case isProcessing
+    }
+    
     // MARK: View Controller Lifecycle
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
         // Disable the record buttons until authorization has been granted.
-        recordButton.isEnabled = false
+        configureRecordButton(withStatus: .isNotReadyRecording)
         
         // 設定ウィンドウからの通知を受け取る設定
         let notificationNames = [Notification.Name(rawValue: advancedPreferencesChangedNotificationIdentifier)]
@@ -60,22 +67,19 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
             OperationQueue.main.addOperation {
                 switch authStatus {
                 case .authorized:
-                    self.recordButton.isEnabled = true
+                    self.configureRecordButton(withStatus: .isReadyRecording)
                     
                 case .denied:
-                    self.recordButton.isEnabled = false
-                    self.recordButton.title = "User denied access to speech recognition"
-
+                    self.configureRecordButton(withStatus: .isNotReadyRecording)
+                    self.textView.string = "User denied access to speech recognition"
                 case .restricted:
-                    self.recordButton.isEnabled = false
-                    self.recordButton.title = "Speech recognition restricted on this device"
-
+                    self.configureRecordButton(withStatus: .isNotReadyRecording)
+                    self.textView.string = "Speech recognition restricted on this device"
                 case .notDetermined:
-                    self.recordButton.isEnabled = false
-                    self.recordButton.title = "Speech recognition not yet authorized"
-
+                    self.configureRecordButton(withStatus: .isNotReadyRecording)
+                    self.textView.string = "Speech recognition not yet authorized"
                 default:
-                    self.recordButton.isEnabled = false
+                    self.configureRecordButton(withStatus: .isNotReadyRecording)
                 }
             }
         }
@@ -135,9 +139,7 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
 
                 self.recognitionRequest = nil
                 self.recognitionTask = nil
-
-                self.recordButton.isEnabled = true
-                self.recordButton.title = "Start Recording"
+                self.configureRecordButton(withStatus: .isReadyRecording)
             }
         }
 
@@ -151,7 +153,7 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
         try audioEngine.start()
         
         // Let the user know to start talking.
-        self.textView.insertText("(Macに語りかけてください!)", replacementRange: NSRange(location: -1, length: 0))
+        self.textView.insertText("(Waiting speech..)", replacementRange: NSRange(location: -1, length: 0))
     }
     
     // MARK: - Helpers
@@ -176,15 +178,31 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
         textView.layer?.opacity = advancedPreferences.opacity
     }
     
+    private func configureRecordButton(withStatus status: RecordStatus) {
+        switch status {
+        case .isNotReadyRecording:
+            recordButton.image = NSImage(named: "NSTouchBarRecordStartTemplate")
+            recordButton.isEnabled = false
+        case .isReadyRecording:
+            recordButton.image = NSImage(named: "NSTouchBarRecordStartTemplate")
+            recordButton.isEnabled = true
+        case .isRecording:
+            recordButton.image = NSImage(named: "NSTouchBarRecordStopTemplate")
+            recordButton.isEnabled = true
+        case .isProcessing:
+            recordButton.image = NSImage(named: "NSTouchBarRecordStartTemplate")
+            recordButton.isEnabled = false
+        }
+    }
+    
     // MARK: SFSpeechRecognizerDelegate
     
     public func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if available {
-            recordButton.isEnabled = true
-            recordButton.title = "Start Recording"
+            configureRecordButton(withStatus: .isReadyRecording)
         } else {
-            recordButton.isEnabled = false
-            recordButton.title = "ecognition Not Available"
+            configureRecordButton(withStatus: .isNotReadyRecording)
+            textView.string = "ecognition Not Available"
         }
     }
     
@@ -195,14 +213,14 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
         if audioEngine.isRunning {
             audioEngine.stop()
             recognitionRequest?.endAudio()
-            recordButton.isEnabled = false
-            recordButton.title = "Stopping"
+            configureRecordButton(withStatus: .isProcessing)
         } else {
             do {
                 try startRecording()
-                recordButton.title = "Stop Recording"
+                configureRecordButton(withStatus: .isRecording)
             } catch {
-                recordButton.title = "Recording Not Available"
+                configureRecordButton(withStatus: .isNotReadyRecording)
+                textView.string = "Recording Not Available"
             }
         }
     }
