@@ -10,16 +10,21 @@ import Foundation
 import Cocoa
 
 class GeneralPreferences {
+    
+    static let shared =  GeneralPreferences()
+    
     enum UserDefaultsKey: String {
         case GEP_IsOverlay
         case GEP_showingTitleBar
+        case GEP_Language
         case GEP_WindowFrame
     }
     
     init() {
         UserDefaults.standard.register(defaults: [
             UserDefaultsKey.GEP_IsOverlay.rawValue : false,
-            UserDefaultsKey.GEP_showingTitleBar.rawValue : true
+            UserDefaultsKey.GEP_showingTitleBar.rawValue : true,
+            UserDefaultsKey.GEP_Language.rawValue : "ja-JP"
         ])
     }
     
@@ -47,6 +52,16 @@ class GeneralPreferences {
         
         set(isFullScreen) {
             UserDefaults.standard.set(isFullScreen, forKey: UserDefaultsKey.GEP_showingTitleBar.rawValue)
+        }
+    }
+    
+    var language: String {
+        get {
+            return UserDefaults.standard.string(forKey: UserDefaultsKey.GEP_Language.rawValue) ?? "ja-JP"
+        }
+        
+        set(language) {
+            UserDefaults.standard.set(language, forKey: UserDefaultsKey.GEP_Language.rawValue)
         }
     }
     

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Qct-6e-Wk0">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Qct-6e-Wk0">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.3"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -57,7 +58,7 @@
             <objects>
                 <viewController title="General" id="89y-XT-EI0" customClass="GeneralPreferencesViewController" customModule="RecognizingSpeechInLiveAudio_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="VTC-0R-mov">
-                        <rect key="frame" x="0.0" y="0.0" width="356" height="182"/>
+                        <rect key="frame" x="0.0" y="0.0" width="396" height="182"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XxG-H7-VOn">
@@ -91,12 +92,43 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qI4-Eq-vN5">
+                                <rect key="frame" x="31" y="97" width="68" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Language:" id="4We-WA-gXq">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="feV-FX-X7B">
+                                <rect key="frame" x="101" y="89" width="105" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <popUpButtonCell key="cell" type="push" title="Japanese" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="nNY-5i-VDO" id="jx9-zc-W4H">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="p2G-ZI-lgl">
+                                        <items>
+                                            <menuItem title="Japanese" state="on" id="nNY-5i-VDO"/>
+                                            <menuItem title="English" identifier="en-US" id="sE2-lf-AEJ"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="languageChanged:" target="89y-XT-EI0" id="DWN-5e-2TM"/>
+                                </connections>
+                            </popUpButton>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="languagePopup" destination="feV-FX-X7B" id="rXj-N4-269"/>
+                        <outlet property="overlayCheckBox" destination="8Ov-0u-uc8" id="1hj-JP-mCE"/>
+                        <outlet property="showingTitleBarCheckBox" destination="XxG-H7-VOn" id="Uk6-vN-EJ5"/>
+                    </connections>
                 </viewController>
                 <customObject id="rVW-Ne-VdU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="466" y="-128"/>
+            <point key="canvasLocation" x="486" y="-128"/>
         </scene>
         <!--Advanced-->
         <scene sceneID="EqN-yZ-vnS">
