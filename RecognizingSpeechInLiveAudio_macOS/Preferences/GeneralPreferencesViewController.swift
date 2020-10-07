@@ -8,29 +8,49 @@
 
 import Cocoa
 
+let generalPreferencesChangedNotificationIdentifier = "GeneralPreferencesChanged"
+
 class GeneralPreferencesViewController: NSViewController {
 
+    // MARK: - Properties
+    
     @IBOutlet var messageTextField: NSTextField!
     
     let generalPreferences = GeneralPreferences()
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        messageTextField.stringValue = generalPreferences.message
-    }
-
-    func generalPreferencesChanged() {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "GeneralPreferencesChanged"), object: nil)
     }
     
-    @IBAction func messageChanged(_ sender: Any) {
-        guard let messageTextField = sender as? NSTextField else {
+    // MARK: - Helpers
+    
+    func postGeneralPreferencesChangedNotification() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: generalPreferencesChangedNotificationIdentifier), object: nil)
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func overlayStatusChanged(_ sender: Any) {
+        guard let checkBox = sender as? NSButton else {
             return
         }
-        generalPreferences.message = messageTextField.stringValue
+        generalPreferences.isOverlay = checkBox.state
         
-        generalPreferencesChanged()
+        // Dockメニュー項目の状態を変更する
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
+//        appDelegate.overlayMenuItem.state = checkBox.state
+        
+        postGeneralPreferencesChangedNotification()
+    }
+    
+    @IBAction func showingTitleBarStateChanged(_ sender: Any) {
+        guard let checkBox = sender as? NSButton else {
+            return
+        }
+        generalPreferences.showingTitleBar = checkBox.state
+        postGeneralPreferencesChangedNotification()
     }
 }
 

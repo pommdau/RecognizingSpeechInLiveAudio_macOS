@@ -45,9 +45,9 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
     
     public override func viewDidAppear() {
         super.viewDidAppear()
-        textView.string = "私は結果もうその意味屋というのの時に悟っだたく。依然として十一月で授業者もようやくこの断食ありうでもが誘き寄せるが行くですには戦争曲げんたから、そうには好かでたないござい。隙間にしたのはどうも時間に同時にですでまい。ざっと岡田さんに成就人実際出立が見るた例この精神おれか参考にについてご話たますないたて、この結果は何か金力仲間に入っと、ネルソンさんの訳が一つの私がどうしてもご影響とよるからあなた一口から小＃「が思っようにちゃんとご運動をつけんましば、さきほどたしか話にしでのにみだ方に騒ぐだます。"
+//        textView.string = "私は結果もうその意味屋というのの時に悟っだたく。依然として十一月で授業者もようやくこの断食ありうでもが誘き寄せるが行くですには戦争曲げんたから、そうには好かでたないござい。隙間にしたのはどうも時間に同時にですでまい。ざっと岡田さんに成就人実際出立が見るた例この精神おれか参考にについてご話たますないたて、この結果は何か金力仲間に入っと、ネルソンさんの訳が一つの私がどうしてもご影響とよるからあなた一口から小＃「が思っようにちゃんとご運動をつけんましば、さきほどたしか話にしでのにみだ方に騒ぐだます。"
         configureTextView()
-        /*
+
         // Configure the SFSpeechRecognizer object already
         // stored in a local member variable.
         speechRecognizer.delegate = self
@@ -79,7 +79,7 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
                 }
             }
         }
- */
+
     }
     
     private func startRecording() throws {
@@ -110,8 +110,11 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
                 // Update the text view with the results.
                 if self.lastTranscription.isEmpty {
                     self.textView.string = "\(result.bestTranscription.formattedString)"
+                    self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
+                    
                 } else {
                     self.textView.string = "\(self.lastTranscription)\n\(result.bestTranscription.formattedString)"
+                    self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
                 }
                 isFinal = result.isFinal
             }
