@@ -17,7 +17,12 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
-    private var lastTranscription = ""  // 以前の文字起こしテキストの保存用
+    private var lastTranscription = "" {  // 以前の文字起こしテキストの保存用
+        didSet { configureTextViewString() }
+    }
+    private var currentTranscription = "" {  // 現在文字起こし中のテキスト
+        didSet { configureTextViewString() }
+    }
     private var recordingStatus = RecordStatus.isNotReadyRecording {
         didSet { configureRecordButton() }
     }
@@ -37,9 +42,6 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Disable the record buttons until authorization has been granted.
-        recordingStatus = .isNotReadyRecording
         
         // 設定ウィンドウからの通知を受け取る設定
         NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: generalPreferencesChangedNotificationIdentifier),
@@ -87,14 +89,7 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
             
             if let result = result {
                 // Update the text view with the results.
-                if self.lastTranscription.isEmpty {
-                    self.textView.string = "\(result.bestTranscription.formattedString)"
-                    self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
-                    
-                } else {
-                    self.textView.string = "\(self.lastTranscription)\n\(result.bestTranscription.formattedString)"
-                    self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
-                }
+                self.currentTranscription = "\(result.bestTranscription.formattedString)"
                 isFinal = result.isFinal
             }
             
@@ -107,6 +102,7 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
                         self.lastTranscription.append("\n\(result.bestTranscription.formattedString)")
                     }
                 }
+                self.currentTranscription = ""
                 
                 // Stop recognizing speech if there is a problem.
                 self.audioEngine.stop()
@@ -128,7 +124,7 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
         try audioEngine.start()
         
         // Let the user know to start talking.
-        self.textView.insertText("(Waiting speech..)", replacementRange: NSRange(location: -1, length: 0))
+        currentTranscription = "(Waiting speech..)"
     }
     
     // MARK: - Helpers
@@ -143,7 +139,7 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
         
         // Asynchronously make the authorization request.
         SFSpeechRecognizer.requestAuthorization { authStatus in
-
+            
             // Divert to the app's main thread so that the UI
             // can be updated.
             OperationQueue.main.addOperation {
@@ -152,22 +148,18 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
                     self.recordingStatus = .isReadyRecording
                 case .denied:
                     self.recordingStatus = .isNotReadyRecording
-                    self.textView.string = "User denied access to speech recognition"
+                    self.currentTranscription = "User denied access to speech recognition"
                 case .restricted:
                     self.recordingStatus = .isNotReadyRecording
-                    self.textView.string = "Speech recognition restricted on this device"
+                    self.currentTranscription = "Speech recognition restricted on this device"
                 case .notDetermined:
                     self.recordingStatus = .isNotReadyRecording
-                    self.textView.string = "Speech recognition not yet authorized"
+                    self.currentTranscription = "Speech recognition not yet authorized"
                 default:
                     self.recordingStatus = .isNotReadyRecording
                 }
             }
         }
-    }
-    
-    private func configureSettings() {
-//        speechRecognizer.locale = Locale(identifier: GeneralPreferences.shared.language)
     }
     
     private func configureTextView() {
@@ -185,6 +177,17 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
         textView.textStorage?.setAttributedString(attibutesString)
         textView.typingAttributes = attributes
         textView.layer?.opacity = advancedPreferences.opacity
+    }
+    
+    private func configureTextViewString() {
+        if self.lastTranscription.count == 0 {
+            self.textView.string = currentTranscription
+            self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
+            
+        } else {
+            self.textView.string = "\(lastTranscription)\n\(currentTranscription)"
+            self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
+        }
     }
     
     private func configureRecordButton() {
@@ -211,7 +214,7 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
             recordingStatus = .isReadyRecording
         } else {
             recordingStatus = .isNotReadyRecording
-            textView.string = "ecognition Not Available"
+            currentTranscription = "ecognition Not Available"
         }
     }
     
@@ -229,14 +232,14 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
                 recordingStatus = .isRecording
             } catch {
                 recordingStatus = .isNotReadyRecording
-                textView.string = "Recording Not Available"
+                currentTranscription = "Recording Not Available"
             }
         }
     }
     
     @IBAction func clearButtonTapped(_ sender: Any) {
         lastTranscription = ""
-        textView.string = lastTranscription
+        currentTranscription = ""
     }
 }
 
