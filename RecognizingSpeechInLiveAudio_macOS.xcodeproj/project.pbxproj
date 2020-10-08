@@ -58,8 +58,8 @@
 				D005683425137A7400E75A4E /* PreferencesTabViewController.swift */,
 				D005683525137A7400E75A4E /* GeneralPreferences.swift */,
 				D005683725137A7500E75A4E /* GeneralPreferencesViewController.swift */,
-				D005683925137A7500E75A4E /* AdvancedPreferencesViewController.swift */,
 				D005683825137A7500E75A4E /* AdvancedPreferences.swift */,
+				D005683925137A7500E75A4E /* AdvancedPreferencesViewController.swift */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";

@@ -183,7 +183,10 @@ public class ViewController: NSViewController, SFSpeechRecognizerDelegate {
         if self.lastTranscription.count == 0 {
             self.textView.string = currentTranscription
             self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
-            
+        } else if self.lastTranscription.count == 0 &&
+                  self.currentTranscription.count == 0 {
+            self.textView.string = "\(lastTranscription)"
+            self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
         } else {
             self.textView.string = "\(lastTranscription)\n\(currentTranscription)"
             self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))

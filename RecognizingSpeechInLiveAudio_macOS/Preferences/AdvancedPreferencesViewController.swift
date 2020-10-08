@@ -22,21 +22,19 @@ class AdvancedPreferencesViewController: NSViewController {
     @IBOutlet var opacitySlider: NSSlider!
     @IBOutlet var opacityTextField: NSTextField!
     
-    private let advancedPreferences = AdvancedPreferences()
-    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // UIの初期設定
-        fontNameTextField.stringValue = String(format: "%@ %d", advancedPreferences.font.fontName, Int(advancedPreferences.font.pointSize))
-        fontColorWell.color = advancedPreferences.fontColor
-        strokeColorWell.color = advancedPreferences.strokeColor
-        strokeWidthTextField.stringValue = String(format: "%.1f", advancedPreferences.strokeWidth)
-        strokeWidthStepper.floatValue = advancedPreferences.strokeWidth
-        opacitySlider.doubleValue = Double(advancedPreferences.opacity)
-        opacityTextField.doubleValue = Double(advancedPreferences.opacity)
+        fontNameTextField.stringValue = String(format: "%@ %d", AdvancedPreferences.shared.font.fontName, Int(AdvancedPreferences.shared.font.pointSize))
+        fontColorWell.color = AdvancedPreferences.shared.fontColor
+        strokeColorWell.color = AdvancedPreferences.shared.strokeColor
+        strokeWidthTextField.stringValue = String(format: "%.1f", AdvancedPreferences.shared.strokeWidth)
+        strokeWidthStepper.floatValue = AdvancedPreferences.shared.strokeWidth
+        opacitySlider.doubleValue = Double(AdvancedPreferences.shared.opacity)
+        opacityTextField.doubleValue = Double(AdvancedPreferences.shared.opacity)
     }
     
     override var representedObject: Any? {
@@ -71,9 +69,9 @@ class AdvancedPreferencesViewController: NSViewController {
             return
         }
         if (colorWell.identifier!.rawValue == "FontColorWell") {
-            advancedPreferences.fontColor = colorWell.color
+            AdvancedPreferences.shared.fontColor = colorWell.color
         } else if (colorWell.identifier!.rawValue == "StrokeColorWell") {
-            advancedPreferences.strokeColor = colorWell.color
+            AdvancedPreferences.shared.strokeColor = colorWell.color
         }
         postAdvancedPreferencesChangedNotification()
     }
@@ -91,14 +89,14 @@ class AdvancedPreferencesViewController: NSViewController {
             sender.stringValue = String(format: "%.1f", strokeWidth)
         }
         
-        advancedPreferences.strokeWidth = strokeWidth
+        AdvancedPreferences.shared.strokeWidth = strokeWidth
         strokeWidthStepper.floatValue = strokeWidth
         postAdvancedPreferencesChangedNotification()
     }
     
     @IBAction func strokeWidthStepperClicked(_ sender: NSStepper) {
         let strokeWidth = sender.floatValue
-        advancedPreferences.strokeWidth = strokeWidth
+        AdvancedPreferences.shared.strokeWidth = strokeWidth
         strokeWidthTextField.stringValue = String(format: "%.1f", strokeWidth)
         postAdvancedPreferencesChangedNotification()
     }
@@ -110,7 +108,7 @@ class AdvancedPreferencesViewController: NSViewController {
         
         let opacity = slider.floatValue
         opacityTextField.doubleValue = Double(opacity)
-        advancedPreferences.opacity = opacity
+        AdvancedPreferences.shared.opacity = opacity
         
         postAdvancedPreferencesChangedNotification()
     }
@@ -118,7 +116,7 @@ class AdvancedPreferencesViewController: NSViewController {
     @IBAction func opacityTextFieldValueChanged(_ sender: Any) {
         let opacity = opacityTextField.floatValue
         opacitySlider.doubleValue = Double(opacity)
-        advancedPreferences.opacity = opacity
+        AdvancedPreferences.shared.opacity = opacity
 
         postAdvancedPreferencesChangedNotification()
     }
@@ -131,9 +129,9 @@ extension AdvancedPreferencesViewController : NSFontChanging {
         guard let fontManager = sender else {
             return
         }
-        let newFont = fontManager.convert(advancedPreferences.font)
-        advancedPreferences.font = newFont
-        fontNameTextField.stringValue = String(format: "%@ %d", advancedPreferences.font.fontName, Int(advancedPreferences.font.pointSize))
+        let newFont = fontManager.convert(AdvancedPreferences.shared.font)
+        AdvancedPreferences.shared.font = newFont
+        fontNameTextField.stringValue = String(format: "%@ %d", AdvancedPreferences.shared.font.fontName, Int(AdvancedPreferences.shared.font.pointSize))
         postAdvancedPreferencesChangedNotification()
     }
 }

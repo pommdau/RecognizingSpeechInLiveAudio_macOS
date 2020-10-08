@@ -10,14 +10,9 @@ import Cocoa
 
 class MainWindowController: NSWindowController {
     
-    private let generalPreferences = GeneralPreferences()
-    
-    //       @IBOutlet var splitViewWindow: IKEHSplitViewPanel!
-    
     override func windowDidLoad() {
         super.windowDidLoad()
         
-        //           splitViewWindow.delegate = self
         self.window?.delegate = self
         
         // 設定ウィンドウからの通知を受け取る設定
@@ -45,16 +40,16 @@ class MainWindowController: NSWindowController {
         // ウィンドウ左上のボタンを表示するかどうかの設定
         // オーバレイの場合ときは常時表示しない。またフルスクリーンのときも表示しない。
         var isHiddenWindowButton = false
-        if (generalPreferences.isOverlay == NSControl.StateValue.on) {
+        if (GeneralPreferences.shared.isOverlay == NSControl.StateValue.on) {
             isHiddenWindowButton = true
         }
-        if (generalPreferences.showingTitleBar == NSControl.StateValue.off) {
+        if (GeneralPreferences.shared.showingTitleBar == NSControl.StateValue.off) {
             isHiddenWindowButton = true
         }
         hideStandardWindowButton(isHidden: isHiddenWindowButton)
         
         
-        if (generalPreferences.isOverlay == NSControl.StateValue.on) {
+        if (GeneralPreferences.shared.isOverlay == NSControl.StateValue.on) {
             window?.ignoresMouseEvents = true
             window?.title = NSLocalizedString("Recognizing Speech - in overlay", comment: "")
         } else {
@@ -63,7 +58,7 @@ class MainWindowController: NSWindowController {
         }
         
         // フルスクリーン状態か
-        if (generalPreferences.showingTitleBar == NSControl.StateValue.off) {
+        if (GeneralPreferences.shared.showingTitleBar == NSControl.StateValue.off) {
             window?.backgroundColor = NSColor(white: 1, alpha: 0.00)
             window?.hasShadow = false
             window?.styleMask.insert(.borderless)

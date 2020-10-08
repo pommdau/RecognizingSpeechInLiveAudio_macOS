@@ -11,7 +11,7 @@ import Cocoa
 
 class GeneralPreferences {
     
-    static let shared =  GeneralPreferences()
+    static let shared = GeneralPreferences()
     
     private enum UserDefaultsKey: String {
         case IsOverlay

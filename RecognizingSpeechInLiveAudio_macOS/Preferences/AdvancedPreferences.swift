@@ -11,7 +11,9 @@ import Cocoa
 
 class AdvancedPreferences {
     
-    enum UserDefaultsKey: String {
+    static let shared =  AdvancedPreferences()
+    
+    private enum UserDefaultsKey: String {
         case fontName
         case fontSize
         case fontColor
