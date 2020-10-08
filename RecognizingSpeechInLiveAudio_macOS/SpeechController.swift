@@ -39,13 +39,39 @@ class SpeechController: NSObject {
     override init() {
         super.init()
         initializeSpeechSettings()
+        
+        NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: generalPreferencesChangedNotificationIdentifier),
+                                               object: nil,
+                                               queue: nil) { (notification) in
+            self.initializeSpeechSettings()
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Selectors
     
     // MARK: - Helpers
     
-    public func startRecording() throws {
+    public func startRecordingButton() {
+        print("DEBUG: recordButtonTapped.. \(Date().description(with: Locale.current))")
+        if audioEngine.isRunning {
+            audioEngine.stop()
+            recognitionRequest?.endAudio()
+            delegate?.didReceive(withStatusMessage: nil, status: .isProcessing)
+        } else {
+            do {
+                try startRecording()
+                delegate?.didReceive(withStatusMessage: nil, status: .isRecording)
+            } catch {
+                delegate?.didReceive(withStatusMessage: "Recording Not Available", status: .isNotReadyRecording)
+            }
+        }
+    }
+    
+    private func startRecording() throws {
         
         // Cancel the previous task if it's running.
         recognitionTask?.cancel()
