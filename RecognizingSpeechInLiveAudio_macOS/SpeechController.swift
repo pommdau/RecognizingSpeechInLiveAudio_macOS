@@ -12,8 +12,9 @@ import Speech
 // MARK: - Protocol SpeechControllerDelegate
 
 protocol SpeechControllerDelegate: class {
-    func didReceive(withStatusMessage message: String?, status: SpeechController.RecordingStatus)
+    func didReceive(withStatusMessage message: String)
     func didReceive(withTranscription transcription: String, isFilal: Bool)
+    func didChange(withStatus status: SpeechController.RecordingStatus)
 }
 
 class SpeechController: NSObject {
@@ -24,7 +25,17 @@ class SpeechController: NSObject {
         case isNotReadyRecording
         case isReadyRecording
         case isRecording
-        case isProcessing
+        case isStoppingRecording
+    }
+    
+    public var recordingStatus = RecordingStatus.isNotReadyRecording {
+        didSet {
+            if  oldValue == .isRecording &&
+                recordingStatus == .isReadyRecording {
+                recordingStatus = oldValue
+            }
+            delegate?.didChange(withStatus: recordingStatus)
+        }
     }
     
     private var speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: GeneralPreferences.shared.language))!
@@ -56,17 +67,17 @@ class SpeechController: NSObject {
     // MARK: - Helpers
     
     public func startRecordingButton() {
-        print("DEBUG: recordButtonTapped.. \(Date().description(with: Locale.current))")
         if audioEngine.isRunning {
             audioEngine.stop()
             recognitionRequest?.endAudio()
-            delegate?.didReceive(withStatusMessage: nil, status: .isProcessing)
+            recordingStatus = .isStoppingRecording
         } else {
             do {
+                recordingStatus = .isRecording
                 try startRecording()
-                delegate?.didReceive(withStatusMessage: nil, status: .isRecording)
             } catch {
-                delegate?.didReceive(withStatusMessage: "Recording Not Available", status: .isNotReadyRecording)
+                delegate?.didReceive(withStatusMessage: "Recording Not Available")
+                recordingStatus = .isNotReadyRecording
             }
         }
     }
@@ -112,7 +123,7 @@ class SpeechController: NSObject {
 
                 self.recognitionRequest = nil
                 self.recognitionTask = nil
-                self.delegate?.didReceive(withStatusMessage: nil, status: .isReadyRecording)
+                self.recordingStatus = .isReadyRecording
             }
         }
 
@@ -126,7 +137,8 @@ class SpeechController: NSObject {
         try audioEngine.start()
         
         // Let the user know to start talking.
-        delegate?.didReceive(withStatusMessage: "(Waiting speech..)", status: .isRecording)
+        delegate?.didReceive(withStatusMessage: "(Waiting speech..)")
+        self.recordingStatus = .isRecording
     }
     
     private func initializeSpeechSettings() {
@@ -145,15 +157,18 @@ class SpeechController: NSObject {
             OperationQueue.main.addOperation {
                 switch authStatus {
                 case .authorized:
-                    self.delegate?.didReceive(withStatusMessage: nil, status: .isReadyRecording)
+                    self.recordingStatus = .isReadyRecording
                 case .denied:
-                    self.delegate?.didReceive(withStatusMessage: "User denied access to speech recognition", status: .isNotReadyRecording)
+                    self.delegate?.didReceive(withStatusMessage: "User denied access to speech recognition")
+                    self.recordingStatus = .isNotReadyRecording
                 case .restricted:
-                    self.delegate?.didReceive(withStatusMessage: "Speech recognition restricted on this device", status: .isNotReadyRecording)
+                    self.delegate?.didReceive(withStatusMessage: "Speech recognition restricted on this device")
+                    self.recordingStatus = .isNotReadyRecording
                 case .notDetermined:
-                    self.delegate?.didReceive(withStatusMessage: "Speech recognition not yet authorized", status: .isNotReadyRecording)
+                    self.delegate?.didReceive(withStatusMessage: "Speech recognition not yet authorized")
+                    self.recordingStatus = .isNotReadyRecording
                 default:
-                    self.delegate?.didReceive(withStatusMessage: nil, status: .isNotReadyRecording)
+                    self.recordingStatus = .isNotReadyRecording
                 }
             }
         }
@@ -165,9 +180,10 @@ class SpeechController: NSObject {
 extension SpeechController: SFSpeechRecognizerDelegate {
     public func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if available {
-            delegate?.didReceive(withStatusMessage: nil, status: .isReadyRecording)
+            recordingStatus = .isReadyRecording
         } else {
-            delegate?.didReceive(withStatusMessage: "recognition Not Available", status: .isNotReadyRecording)
+            delegate?.didReceive(withStatusMessage: "recognition Not Available")
+            recordingStatus = .isNotReadyRecording
         }
     }
 }

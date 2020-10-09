@@ -26,7 +26,10 @@ public class ViewController: NSViewController {
     }
     
     private var recordingStatus = SpeechController.RecordingStatus.isNotReadyRecording {
-        didSet { configureRecordButton() }
+        didSet {
+            print("DEBUG: 🐱\(recordingStatus.rawValue)")
+            configureRecordButton()
+        }
     }
     
     @IBOutlet var textView: NSTextView!
@@ -75,17 +78,12 @@ public class ViewController: NSViewController {
     }
     
     private func configureTextViewString() {
-        if self.lastTranscription.count == 0 {
-            self.textView.string = currentTranscription
-            self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
-        } else if self.lastTranscription.count == 0 &&
-                  self.currentTranscription.count == 0 {
-            self.textView.string = "\(lastTranscription)"
-            self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
+        if lastTranscription.count > 0 && currentTranscription.count > 0 {
+            textView.string = "\(lastTranscription)\n\(currentTranscription)"
         } else {
-            self.textView.string = "\(lastTranscription)\n\(currentTranscription)"
-            self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
+            textView.string = "\(lastTranscription)\(currentTranscription)"
         }
+        self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
     }
     
     private func configureRecordButton() {
@@ -99,7 +97,7 @@ public class ViewController: NSViewController {
         case .isRecording:
             recordButton.image = NSImage(named: "NSTouchBarRecordStopTemplate")
             recordButton.isEnabled = true
-        case .isProcessing:
+        case .isStoppingRecording:
             recordButton.image = NSImage(named: "NSTouchBarRecordStartTemplate")
             recordButton.isEnabled = false
         }
@@ -118,19 +116,27 @@ public class ViewController: NSViewController {
 }
 
 extension ViewController: SpeechControllerDelegate {
-    func didReceive(withStatusMessage message: String?, status: SpeechController.RecordingStatus) {
-        if let message = message {
-            currentTranscription = message
-        }
+    func didChange(withStatus status: SpeechController.RecordingStatus) {
         recordingStatus = status
+    }
+    
+    func didReceive(withStatusMessage message: String) {
+        currentTranscription = message
     }
     
     func didReceive(withTranscription transcription: String, isFilal: Bool) {
         if isFilal {
-            lastTranscription = transcription
+            currentTranscription = ""
+            if lastTranscription.count == 0 {
+                lastTranscription = "\(transcription)"
+            } else {
+                lastTranscription = "\(lastTranscription)\n\(transcription)"
+            }
+            
             recordingStatus = .isReadyRecording
         } else {
             currentTranscription = transcription
+            recordingStatus = .isRecording
         }
     }
 }
