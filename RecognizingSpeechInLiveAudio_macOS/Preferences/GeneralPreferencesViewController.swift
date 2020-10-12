@@ -18,10 +18,11 @@ class GeneralPreferencesViewController: NSViewController {
     @IBOutlet weak var overlayCheckBox: NSButton!
     @IBOutlet weak var showingTitleBarCheckBox: NSButton!
     @IBOutlet weak var languagePopup: NSPopUpButton!
+    @IBOutlet weak var sendingAudioCheckBox: NSButton!
     
     private let languages = [
-        ["日本語（日本）", "ja-JP"],
         ["English (United States)", "en-US"],
+        ["日本語（日本）", "ja-JP"],
         ["Bahasa Melayu (Malaysia)", "ms-MY"],
         ["Deutsch (Deutschland)", "de-DE"],
         ["Deutsch (Schweiz)", "de-CH"],
@@ -72,8 +73,6 @@ class GeneralPreferencesViewController: NSViewController {
         ["Ελληνικά (Ελλάδα)", "el-GR"],
         ["русский (Россия)", "ru-RU"],
         ["українська (Україна)", "uk-UA"],
-        ["עברית (ישראל)", "he-IL"],
-        ["العربية (المملكة العربية السعودية)", "ar-SA"],
         ["हिन्दी (भारत)", "hi-IN"],
         ["हिन्दी (भारत, TRANSLIT)", "hi-IN-translit"],
         ["ไทย (ไทย)", "th-TH"],
@@ -111,6 +110,8 @@ class GeneralPreferencesViewController: NSViewController {
                 break
             }
         }
+        
+        sendingAudioCheckBox.state = GeneralPreferences.shared.sendingAudio
     }
     
     private func configureLanguagePopup() {
@@ -158,6 +159,16 @@ class GeneralPreferencesViewController: NSViewController {
     @IBAction func languageChanged(_ sender: NSPopUpButton) {
         guard let language = sender.selectedItem?.identifier?.rawValue else { return }
         GeneralPreferences.shared.language = language
+        postGeneralPreferencesChangedNotification()
+        configureUI()
+    }
+    
+    @IBAction func sendingAudioChanged(_ sender: Any) {
+        guard let checkBox = sender as? NSButton else {
+            return
+        }
+        
+        GeneralPreferences.shared.sendingAudio = checkBox.state
         postGeneralPreferencesChangedNotification()
         configureUI()
     }

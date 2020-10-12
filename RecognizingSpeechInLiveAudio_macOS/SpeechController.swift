@@ -6,7 +6,7 @@
 //  Copyright © 2020 hikeuchi. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 import Speech
 
 // MARK: - Protocol SpeechControllerDelegate
@@ -91,7 +91,12 @@ class SpeechController: NSObject {
         
         // Keep speech recognition data on device
         if #available(macOS 10.15, *) {
-            recognitionRequest.requiresOnDeviceRecognition = false  // オフライン専用にするならtrue（設定に追加したいような項目）
+            if GeneralPreferences.shared.sendingAudio == NSControl.StateValue.on {
+                recognitionRequest.requiresOnDeviceRecognition =  false // オフライン専用にするならtrue
+            } else {
+                recognitionRequest.requiresOnDeviceRecognition =  true
+            }
+            print("DEBUG: 🍏\(recognitionRequest.requiresOnDeviceRecognition)")
         }
         
         // Create a recognition task for the speech recognition session.
