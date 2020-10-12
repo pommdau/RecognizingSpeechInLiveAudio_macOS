@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Speech
 
 let generalPreferencesChangedNotificationIdentifier = "GeneralPreferencesChanged"
 
@@ -18,10 +19,77 @@ class GeneralPreferencesViewController: NSViewController {
     @IBOutlet weak var showingTitleBarCheckBox: NSButton!
     @IBOutlet weak var languagePopup: NSPopUpButton!
     
+    private let languages = [
+        ["日本語（日本）", "ja-JP"],
+        ["English (United States)", "en-US"],
+        ["Bahasa Melayu (Malaysia)", "ms-MY"],
+        ["Deutsch (Deutschland)", "de-DE"],
+        ["Deutsch (Schweiz)", "de-CH"],
+        ["Deutsch (Österreich)", "de-AT"],
+        ["English (Australia)", "en-AU"],
+        ["English (Canada)", "en-CA"],
+        ["English (India)", "en-IN"],
+        ["English (Indonesia)", "en-ID"],
+        ["English (Ireland)", "en-IE"],
+        ["English (New Zealand)", "en-NZ"],
+        ["English (Philippines)", "en-PH"],
+        ["English (Saudi Arabia)", "en-SA"],
+        ["English (Singapore)", "en-SG"],
+        ["English (South Africa)", "en-ZA"],
+        ["English (United Arab Emirates)", "en-AE"],
+        ["English (United Kingdom)", "en-GB"],
+        ["Hindi (Latin)", "hi-Latn"],
+        ["Indonesia (Indonesia)", "id-ID"],
+        ["Nederlands (België)", "nl-BE"],
+        ["Nederlands (Nederland)", "nl-NL"],
+        ["Tiếng Việt (Việt Nam)", "vi-VN"],
+        ["Türkçe (Türkiye)", "tr-TR"],
+        ["català (Espanya)", "ca-ES"],
+        ["dansk (Danmark)", "da-DK"],
+        ["español (Chile)", "es-CL"],
+        ["español (Colombia)", "es-CO"],
+        ["español (España)", "es-ES"],
+        ["español (Estados Unidos)", "es-US"],
+        ["español (Latinoamérica)", "es-419"],
+        ["español (México)", "es-MX"],
+        ["français (Belgique)", "fr-BE"],
+        ["français (Canada)", "fr-CA"],
+        ["français (France)", "fr-FR"],
+        ["français (Suisse)", "fr-CH"],
+        ["hrvatski (Hrvatska)", "hr-HR"],
+        ["italiano (Italia)", "it-IT"],
+        ["italiano (Svizzera)", "it-CH"],
+        ["magyar (Magyarország)", "hu-HU"],
+        ["norsk bokmål (Norge)", "nb-NO"],
+        ["polski (Polska)", "pl-PL"],
+        ["português (Brasil)", "pt-BR"],
+        ["português (Portugal)", "pt-PT"],
+        ["română (România)", "ro-RO"],
+        ["slovenčina (Slovensko)", "sk-SK"],
+        ["suomi (Suomi)", "fi-FI"],
+        ["svenska (Sverige)", "sv-SE"],
+        ["čeština (Česko)", "cs-CZ"],
+        ["Ελληνικά (Ελλάδα)", "el-GR"],
+        ["русский (Россия)", "ru-RU"],
+        ["українська (Україна)", "uk-UA"],
+        ["עברית (ישראל)", "he-IL"],
+        ["العربية (المملكة العربية السعودية)", "ar-SA"],
+        ["हिन्दी (भारत)", "hi-IN"],
+        ["हिन्दी (भारत, TRANSLIT)", "hi-IN-translit"],
+        ["ไทย (ไทย)", "th-TH"],
+        ["上海话（中国大陆）", "wuu-CN"],
+        ["中文（中国大陆）", "zh-CN"],
+        ["中文（台灣）", "zh-TW"],
+        ["中文（香港）", "zh-HK"],
+        ["粤语 (中国大陆)", "yue-CN"],
+        ["한국어(대한민국)", "ko-KR"],
+    ]
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureLanguagePopup()
         configureUI()
     }
     
@@ -42,6 +110,26 @@ class GeneralPreferencesViewController: NSViewController {
                 languagePopup.selectItem(at: popupIndex)
                 break
             }
+        }
+    }
+    
+    private func configureLanguagePopup() {
+
+        
+//         for getting support language list
+//         SFSpeechRecognizer.supportedLocales().enumerated().forEach {
+//            print("[\"\($0.element.localizedString(forIdentifier: $0.element.identifier)!)\", \"\($0.element.identifier)\"],")
+//         }
+        
+//        let sortedLanguages = languages.sorted() { $0[0] < $1[0] }
+//        for language in sortedLanguages {
+//            print("[\"\(language[0])\", \"\(language[1])\"],")
+//        }
+
+        for language in languages {
+            let menu = NSMenuItem(title: language[0], action: nil, keyEquivalent: "")
+            menu.identifier = NSUserInterfaceItemIdentifier(language[1])
+            languagePopup.menu?.addItem(menu)
         }
     }
     

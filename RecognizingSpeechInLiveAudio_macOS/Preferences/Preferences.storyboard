@@ -24,7 +24,7 @@
                 </windowController>
                 <customObject id="GvX-0J-JIN" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-660" y="-120"/>
+            <point key="canvasLocation" x="-672" y="-97"/>
         </scene>
         <!--Preferences Tab View Controller-->
         <scene sceneID="AHP-51-qh3">
@@ -58,7 +58,7 @@
             <objects>
                 <viewController title="General" id="89y-XT-EI0" customClass="GeneralPreferencesViewController" customModule="RecognizingSpeechInLiveAudio_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="VTC-0R-mov">
-                        <rect key="frame" x="0.0" y="0.0" width="396" height="182"/>
+                        <rect key="frame" x="0.0" y="0.0" width="355" height="182"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XxG-H7-VOn">
@@ -102,17 +102,12 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="feV-FX-X7B">
-                                <rect key="frame" x="101" y="89" width="105" height="25"/>
+                                <rect key="frame" x="101" y="89" width="237" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="push" title="Japanese" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="nNY-5i-VDO" id="jx9-zc-W4H">
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="jx9-zc-W4H">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
-                                    <menu key="menu" id="p2G-ZI-lgl">
-                                        <items>
-                                            <menuItem title="Japanese" state="on" identifier="ja-JP" id="nNY-5i-VDO"/>
-                                            <menuItem title="English" identifier="en-US" id="sE2-lf-AEJ"/>
-                                        </items>
-                                    </menu>
+                                    <menu key="menu" id="p2G-ZI-lgl"/>
                                 </popUpButtonCell>
                                 <connections>
                                     <action selector="languageChanged:" target="89y-XT-EI0" id="DWN-5e-2TM"/>
@@ -128,7 +123,7 @@
                 </viewController>
                 <customObject id="rVW-Ne-VdU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="486" y="-128"/>
+            <point key="canvasLocation" x="465.5" y="-128"/>
         </scene>
         <!--Advanced-->
         <scene sceneID="EqN-yZ-vnS">
@@ -287,7 +282,7 @@
                 </viewController>
                 <customObject id="S2w-5b-AjP" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="531" y="330"/>
+            <point key="canvasLocation" x="519" y="170"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="E4Y-5u-neS">
