@@ -30,10 +30,6 @@ class SpeechController: NSObject {
     
     public var recordingStatus = RecordingStatus.isNotReadyRecording {
         didSet {
-            if  oldValue == .isRecording &&
-                recordingStatus == .isReadyRecording {
-                recordingStatus = oldValue
-            }
             delegate?.didChange(withStatus: recordingStatus)
         }
     }
@@ -61,8 +57,6 @@ class SpeechController: NSObject {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
-    // MARK: - Selectors
     
     // MARK: - Helpers
     
@@ -94,11 +88,11 @@ class SpeechController: NSObject {
         // Create and configure the speech recognition request.
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let recognitionRequest = recognitionRequest else { fatalError("Unable to create a SFSpeechAudioBufferRecognitionRequest object") }
-        recognitionRequest.shouldReportPartialResults = true
+        recognitionRequest.shouldReportPartialResults = true  // 中間結果を取得する
         
         // Keep speech recognition data on device
         if #available(iOS 13, macOS 10.15, *) {
-            recognitionRequest.requiresOnDeviceRecognition = false  // オフライン専用にするならtrue（設定に追加したいような項目）
+            recognitionRequest.requiresOnDeviceRecognition = true  // オフライン専用にするならtrue（設定に追加したいような項目）
         }
         
         // Create a recognition task for the speech recognition session.
@@ -108,6 +102,7 @@ class SpeechController: NSObject {
             
             if let result = result {
                 // Update the text view with the results.
+                print("DEBUG: 🍎\(result.bestTranscription.formattedString)")
                 self.delegate?.didReceive(withTranscription: result.bestTranscription.formattedString, isFilal: false)
                 isFinal = result.isFinal
             }
@@ -118,6 +113,7 @@ class SpeechController: NSObject {
                 }
                 
                 // Stop recognizing speech if there is a problem.
+                self.recordingStatus = .isStoppingRecording
                 self.audioEngine.stop()
                 inputNode.removeTap(onBus: 0)
 
@@ -157,7 +153,9 @@ class SpeechController: NSObject {
             OperationQueue.main.addOperation {
                 switch authStatus {
                 case .authorized:
-                    self.recordingStatus = .isReadyRecording
+                    if self.recordingStatus != .isRecording {
+                        self.recordingStatus = .isReadyRecording
+                    }
                 case .denied:
                     self.delegate?.didReceive(withStatusMessage: "User denied access to speech recognition")
                     self.recordingStatus = .isNotReadyRecording
@@ -180,7 +178,9 @@ class SpeechController: NSObject {
 extension SpeechController: SFSpeechRecognizerDelegate {
     public func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if available {
-            recordingStatus = .isReadyRecording
+            if self.recordingStatus != .isRecording {
+                self.recordingStatus = .isReadyRecording
+            }
         } else {
             delegate?.didReceive(withStatusMessage: "recognition Not Available")
             recordingStatus = .isNotReadyRecording

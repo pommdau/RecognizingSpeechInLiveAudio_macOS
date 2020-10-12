@@ -132,11 +132,8 @@ extension ViewController: SpeechControllerDelegate {
             } else {
                 lastTranscription = "\(lastTranscription)\n\(transcription)"
             }
-            
-            recordingStatus = .isReadyRecording
         } else {
             currentTranscription = transcription
-            recordingStatus = .isRecording
         }
     }
 }
