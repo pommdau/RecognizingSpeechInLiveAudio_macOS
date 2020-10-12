@@ -49,8 +49,15 @@ public class ViewController: NSViewController {
         }
     }
     
+    public override func viewWillAppear() {
+        super.viewWillAppear()
+    }
+    
     public override func viewDidAppear() {
         super.viewDidAppear()
+        self.view.window?.delegate = self
+
+        view.window?.animator().setFrame(GeneralPreferences().windowFrame, display: false)
         configureTextView()
         configureRecordButton()
     }
@@ -124,6 +131,8 @@ public class ViewController: NSViewController {
     }
 }
 
+// MARK: - SpeechControllerDelegate
+
 extension ViewController: SpeechControllerDelegate {
     func didChange(withStatus status: SpeechController.RecordingStatus) {
         recordingStatus = status
@@ -143,6 +152,27 @@ extension ViewController: SpeechControllerDelegate {
             }
         } else {
             currentTranscription = transcription
+        }
+    }
+}
+
+// MARK: - NSWindowDelegate
+
+extension ViewController: NSWindowDelegate {
+    // メインウィンドウが閉じた場合にアプリケーションを終了する
+    public func windowWillClose(_ notification: Notification) {
+        NSApp.terminate(self)
+    }
+    
+    public func windowDidResize(_ notification: Notification) {
+        if let newPanel = notification.object as? NSPanel {
+            GeneralPreferences().windowFrame = newPanel.frame
+        }
+    }
+    
+    public func windowDidMove(_ notification: Notification) {
+        if let newPanel = notification.object as? NSPanel {
+            GeneralPreferences().windowFrame = newPanel.frame
         }
     }
 }
