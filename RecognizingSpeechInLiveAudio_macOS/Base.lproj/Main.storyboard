@@ -728,7 +728,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="661" height="286"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="idf-LH-TgU">
+                                        <textView editable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="idf-LH-TgU">
                                             <rect key="frame" x="0.0" y="0.0" width="661" height="286"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -755,11 +755,11 @@
                                     <constraint firstAttribute="width" constant="32" id="OXX-5o-2h5"/>
                                     <constraint firstAttribute="height" constant="32" id="Pi8-w4-1R4"/>
                                 </constraints>
-                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarRecordStartTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="6Qg-eD-DU5">
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarRecordStartTemplate" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="6Qg-eD-DU5">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <color key="contentTintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="0.79826626710000004" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="contentTintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="recordButtonTapped:" target="XfG-lQ-9wD" id="8gu-AD-OBe"/>
                                 </connections>
@@ -771,11 +771,11 @@
                                     <constraint firstAttribute="width" constant="32" id="bHC-Dg-T8O"/>
                                     <constraint firstAttribute="width" secondItem="vjo-rN-Vom" secondAttribute="height" multiplier="1:1" id="iox-XT-8Fu"/>
                                 </constraints>
-                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTrashFull" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="5uf-Hr-kJn">
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTrashFull" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="5uf-Hr-kJn">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <color key="contentTintColor" name="systemTealColor" catalog="System" colorSpace="catalog"/>
+                                <color key="contentTintColor" name="systemPinkColor" catalog="System" colorSpace="catalog"/>
                                 <connections>
                                     <action selector="clearButtonTapped:" target="XfG-lQ-9wD" id="3AG-6l-Nh1"/>
                                 </connections>

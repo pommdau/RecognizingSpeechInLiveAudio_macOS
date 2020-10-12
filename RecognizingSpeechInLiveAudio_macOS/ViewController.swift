@@ -25,7 +25,7 @@ public class ViewController: NSViewController {
         didSet { configureTextViewString() }
     }
     
-    private var recordingStatus = SpeechController.RecordingStatus.isNotReadyRecording {
+    private var recordingStatus = SpeechController.RecordingStatus.isReadyRecording {
         didSet {
             print("DEBUG: 🐱\(recordingStatus.rawValue)")
             configureRecordButton()
@@ -52,6 +52,7 @@ public class ViewController: NSViewController {
     public override func viewDidAppear() {
         super.viewDidAppear()
         configureTextView()
+        configureRecordButton()
     }
     
     deinit {
@@ -91,15 +92,23 @@ public class ViewController: NSViewController {
         case .isNotReadyRecording:
             recordButton.image = NSImage(named: "NSTouchBarRecordStartTemplate")
             recordButton.isEnabled = false
+            recordButton.image?.isTemplate = true
+            recordButton.contentTintColor = .disabledControlTextColor
         case .isReadyRecording:
             recordButton.image = NSImage(named: "NSTouchBarRecordStartTemplate")
             recordButton.isEnabled = true
+            recordButton.image?.isTemplate = true
+            recordButton.contentTintColor = .systemRed
         case .isRecording:
             recordButton.image = NSImage(named: "NSTouchBarRecordStopTemplate")
             recordButton.isEnabled = true
+            recordButton.image?.isTemplate = true
+            recordButton.contentTintColor = .black
         case .isStoppingRecording:
             recordButton.image = NSImage(named: "NSTouchBarRecordStartTemplate")
             recordButton.isEnabled = false
+            recordButton.image?.isTemplate = true
+            recordButton.contentTintColor = .disabledControlTextColor
         }
     }
     
