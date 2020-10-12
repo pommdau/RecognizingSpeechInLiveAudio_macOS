@@ -6,7 +6,7 @@
 //  Copyright © 2020 hikeuchi. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 import Speech
 
 // MARK: - Protocol SpeechControllerDelegate
@@ -37,7 +37,7 @@ class SpeechController: NSObject {
     private var speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: GeneralPreferences.shared.language))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
-    private let audioEngine = AVAudioEngine()
+    private let audioEngine = AVAudioEngine()  // オーディオ信号の生成と処理、オーディオの入出力やAudio Nodeのつなぎこみを行うクラス
     
     weak var delegate: SpeechControllerDelegate?
     
@@ -77,22 +77,27 @@ class SpeechController: NSObject {
     }
     
     private func startRecording() throws {
-        
         // Cancel the previous task if it's running.
         recognitionTask?.cancel()
         self.recognitionTask = nil
         
         // Configure the audio session for the app.
         let inputNode = audioEngine.inputNode
-
+                
         // Create and configure the speech recognition request.
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let recognitionRequest = recognitionRequest else { fatalError("Unable to create a SFSpeechAudioBufferRecognitionRequest object") }
         recognitionRequest.shouldReportPartialResults = true  // 中間結果を取得する
         
         // Keep speech recognition data on device
-        if #available(iOS 13, macOS 10.15, *) {
-            recognitionRequest.requiresOnDeviceRecognition = true  // オフライン専用にするならtrue（設定に追加したいような項目）
+        if #available(macOS 10.15, *) {
+            if SFSpeechRecognizer.checkSupportLanguageInOffline(withIdentifier: GeneralPreferences.shared.language) &&
+                GeneralPreferences.shared.sendingAudio == NSControl.StateValue.on {
+                recognitionRequest.requiresOnDeviceRecognition =  false  // サーバに音声データを送信する
+            } else {
+                recognitionRequest.requiresOnDeviceRecognition =  true  // オフライン専用にするならtrue
+            }
+            print("DEBUG: 🍏\(recognitionRequest.requiresOnDeviceRecognition)")
         }
         
         // Create a recognition task for the speech recognition session.
@@ -126,9 +131,8 @@ class SpeechController: NSObject {
         // Configure the microphone input.
         let recordingFormat = inputNode.outputFormat(forBus: 0)
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
-            self.recognitionRequest?.append(buffer)
+            self.recognitionRequest?.append(buffer)  // オーディオサンプルをPCM形式で蓄積し、音声認識システムに配信する
         }
-        
         audioEngine.prepare()
         try audioEngine.start()
         
@@ -187,3 +191,4 @@ extension SpeechController: SFSpeechRecognizerDelegate {
         }
     }
 }
+

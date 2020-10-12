@@ -17,6 +17,7 @@ class GeneralPreferences {
         case IsOverlay
         case ShowingTitleBar
         case Language
+        case SendingAudio
         case WindowFrame
     }
     
@@ -24,7 +25,8 @@ class GeneralPreferences {
         UserDefaults.standard.register(defaults: [
             UserDefaultsKey.IsOverlay.rawValue : false,
             UserDefaultsKey.ShowingTitleBar.rawValue : true,
-            UserDefaultsKey.Language.rawValue : "ja-JP"
+            UserDefaultsKey.Language.rawValue : "en-US",
+            UserDefaultsKey.SendingAudio.rawValue : true,
         ])
     }
     
@@ -32,6 +34,8 @@ class GeneralPreferences {
     private func resetUserDefaults() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.IsOverlay.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.ShowingTitleBar.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.Language.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.SendingAudio.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.WindowFrame.rawValue)
     }
     
@@ -57,11 +61,21 @@ class GeneralPreferences {
     
     var language: String {
         get {
-            return UserDefaults.standard.string(forKey: UserDefaultsKey.Language.rawValue) ?? "ja-JP"
+            return UserDefaults.standard.string(forKey: UserDefaultsKey.Language.rawValue) ?? "en-US"
         }
         
         set(language) {
             UserDefaults.standard.set(language, forKey: UserDefaultsKey.Language.rawValue)
+        }
+    }
+    
+    var sendingAudio: NSControl.StateValue {
+        get {
+            return NSControl.StateValue(UserDefaults.standard.integer(forKey: UserDefaultsKey.SendingAudio.rawValue))
+        }
+        
+        set(sendingAudio) {
+            UserDefaults.standard.set(sendingAudio, forKey: UserDefaultsKey.SendingAudio.rawValue)
         }
     }
     
