@@ -88,7 +88,7 @@ class GeneralPreferencesViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureLanguagePopup()
+        initializeLanguagePopup()
         configureUI()
     }
     
@@ -112,11 +112,11 @@ class GeneralPreferencesViewController: NSViewController {
         }
         
         sendingAudioCheckBox.state = GeneralPreferences.shared.sendingAudio
+        sendingAudioCheckBox.isEnabled = SFSpeechRecognizer.checkSupportLanguageInOffline(withIdentifier: GeneralPreferences.shared.language)
     }
     
-    private func configureLanguagePopup() {
+    private func initializeLanguagePopup() {
 
-        
 //         for getting support language list
 //         SFSpeechRecognizer.supportedLocales().enumerated().forEach {
 //            print("[\"\($0.element.localizedString(forIdentifier: $0.element.identifier)!)\", \"\($0.element.identifier)\"],")

@@ -91,10 +91,11 @@ class SpeechController: NSObject {
         
         // Keep speech recognition data on device
         if #available(macOS 10.15, *) {
-            if GeneralPreferences.shared.sendingAudio == NSControl.StateValue.on {
-                recognitionRequest.requiresOnDeviceRecognition =  false // オフライン専用にするならtrue
+            if SFSpeechRecognizer.checkSupportLanguageInOffline(withIdentifier: GeneralPreferences.shared.language) &&
+                GeneralPreferences.shared.sendingAudio == NSControl.StateValue.on {
+                recognitionRequest.requiresOnDeviceRecognition =  false  // サーバに音声データを送信する
             } else {
-                recognitionRequest.requiresOnDeviceRecognition =  true
+                recognitionRequest.requiresOnDeviceRecognition =  true  // オフライン専用にするならtrue
             }
             print("DEBUG: 🍏\(recognitionRequest.requiresOnDeviceRecognition)")
         }
@@ -190,3 +191,4 @@ extension SpeechController: SFSpeechRecognizerDelegate {
         }
     }
 }
+
