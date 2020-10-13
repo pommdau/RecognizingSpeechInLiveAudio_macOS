@@ -20,14 +20,17 @@ class AdvancedPreferences {
         case strokeColor
         case strokeWidth
         case opacity
+        case backgroundColor
+        case backgroundOpacity
     }
     
     init() {
         // NSColorに関してはGetterの処理に任せている
         UserDefaults.standard.register(defaults: [UserDefaultsKey.fontName.rawValue : "HiraginoSans-W7",
                                                   UserDefaultsKey.fontSize.rawValue : 44.0,
-                                                  UserDefaultsKey.strokeWidth.rawValue : 2.0,
-                                                  UserDefaultsKey.opacity.rawValue : 1.0])
+                                                  UserDefaultsKey.strokeWidth.rawValue : 0.0,
+                                                  UserDefaultsKey.opacity.rawValue : 1.0,
+                                                  UserDefaultsKey.backgroundOpacity.rawValue : 0.7])
     }
     
     // For Debug
@@ -38,8 +41,9 @@ class AdvancedPreferences {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.strokeColor.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.strokeWidth.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.opacity.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.backgroundColor.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.backgroundOpacity.rawValue)
     }
-    
     
     var font: NSFont {
         get {
@@ -63,16 +67,16 @@ class AdvancedPreferences {
     var fontColor: NSColor {
         get {
             guard let colorData = UserDefaults.standard.data(forKey: UserDefaultsKey.fontColor.rawValue) else {
-                return NSColor.black
+                return NSColor.white
             }
-            guard let color = NSKeyedUnarchiver.unarchiveObject(with: colorData) as? NSColor else {
-                return NSColor.black
+            guard let color = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: colorData) else {
+                return NSColor.white
             }
             return color
         }
         
         set (color) {
-            guard let colorData = NSKeyedArchiver.archivedData(withRootObject: color) as NSData? else {
+            guard let colorData = try? NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false) else {
                 return
             }
             UserDefaults.standard.set(colorData, forKey: UserDefaultsKey.fontColor.rawValue)
@@ -82,16 +86,16 @@ class AdvancedPreferences {
     var strokeColor: NSColor {
         get {
             guard let colorData = UserDefaults.standard.data(forKey: UserDefaultsKey.strokeColor.rawValue) else {
-                return NSColor.blue
+                return NSColor.black
             }
-            guard let color = NSKeyedUnarchiver.unarchiveObject(with: colorData) as? NSColor else {
-                return NSColor.blue
+            guard let color = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: colorData) else {
+                return NSColor.black
             }
             return color
         }
         
         set (color) {
-            guard let colorData = NSKeyedArchiver.archivedData(withRootObject: color) as NSData? else {
+            guard let colorData = try? NSKeyedArchiver.archivedData(withRootObject: backgroundColor, requiringSecureCoding: false) else {
                 return
             }
             UserDefaults.standard.set(colorData, forKey: UserDefaultsKey.strokeColor.rawValue)
@@ -117,6 +121,37 @@ class AdvancedPreferences {
         
         set (opacity) {
             UserDefaults.standard.set(opacity, forKey: UserDefaultsKey.opacity.rawValue)
+        }
+    }
+    
+    var backgroundColor: NSColor {
+        get {
+            guard let colorData = UserDefaults.standard.data(forKey: UserDefaultsKey.backgroundColor.rawValue) else {
+                return NSColor.black
+            }
+
+            guard let color = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: colorData) else {
+                return NSColor.black
+            }
+            return color
+        }
+        
+        set (backgroundColor) {
+            guard let colorData = try? NSKeyedArchiver.archivedData(withRootObject: backgroundColor, requiringSecureCoding: false) else {
+                return
+            }
+            UserDefaults.standard.set(colorData, forKey: UserDefaultsKey.backgroundColor.rawValue)
+        }
+    }
+    
+    var backgroundOpacity: Float {
+        get {
+            let backgroundOpacity = UserDefaults.standard.float(forKey: UserDefaultsKey.backgroundOpacity.rawValue)
+            return backgroundOpacity
+        }
+        
+        set (backgroundOpacity) {
+            UserDefaults.standard.set(backgroundOpacity, forKey: UserDefaultsKey.backgroundOpacity.rawValue)
         }
     }
 }

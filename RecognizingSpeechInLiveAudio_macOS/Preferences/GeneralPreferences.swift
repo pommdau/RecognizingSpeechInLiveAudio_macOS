@@ -31,7 +31,7 @@ class GeneralPreferences {
     }
     
     // For Debug
-    private func resetUserDefaults() {
+    func resetUserDefaults() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.IsOverlay.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.ShowingTitleBar.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.Language.rawValue)

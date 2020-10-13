@@ -21,6 +21,9 @@ class AdvancedPreferencesViewController: NSViewController {
     @IBOutlet var strokeWidthStepper: NSStepper!
     @IBOutlet var opacitySlider: NSSlider!
     @IBOutlet var opacityTextField: NSTextField!
+    @IBOutlet var backgroundColorWell: NSColorWell!
+    @IBOutlet var backgroundOpacitySlider: NSSlider!
+    @IBOutlet var backgroundOpacityTextField: NSTextField!
     
     // MARK: - Lifecycle
     
@@ -28,13 +31,16 @@ class AdvancedPreferencesViewController: NSViewController {
         super.viewDidLoad()
         
         // UIの初期設定
-        fontNameTextField.stringValue = String(format: "%@ %d", AdvancedPreferences.shared.font.fontName, Int(AdvancedPreferences.shared.font.pointSize))
-        fontColorWell.color = AdvancedPreferences.shared.fontColor
-        strokeColorWell.color = AdvancedPreferences.shared.strokeColor
-        strokeWidthTextField.stringValue = String(format: "%.1f", AdvancedPreferences.shared.strokeWidth)
-        strokeWidthStepper.floatValue = AdvancedPreferences.shared.strokeWidth
-        opacitySlider.doubleValue = Double(AdvancedPreferences.shared.opacity)
-        opacityTextField.doubleValue = Double(AdvancedPreferences.shared.opacity)
+        fontNameTextField.stringValue           = String(format: "%@ %d", AdvancedPreferences.shared.font.fontName, Int(AdvancedPreferences.shared.font.pointSize))
+        fontColorWell.color                     = AdvancedPreferences.shared.fontColor
+        strokeColorWell.color                   = AdvancedPreferences.shared.strokeColor
+        strokeWidthTextField.stringValue        = String(format: "%.1f", AdvancedPreferences.shared.strokeWidth)
+        strokeWidthStepper.floatValue           = AdvancedPreferences.shared.strokeWidth
+        opacitySlider.doubleValue               = Double(AdvancedPreferences.shared.opacity)
+        opacityTextField.doubleValue            = Double(AdvancedPreferences.shared.opacity)
+        backgroundColorWell.color               = AdvancedPreferences.shared.backgroundColor
+        backgroundOpacitySlider.doubleValue     = Double(AdvancedPreferences.shared.backgroundOpacity)
+        backgroundOpacityTextField.doubleValue  = Double(AdvancedPreferences.shared.backgroundOpacity)
     }
     
     override var representedObject: Any? {
@@ -72,6 +78,8 @@ class AdvancedPreferencesViewController: NSViewController {
             AdvancedPreferences.shared.fontColor = colorWell.color
         } else if (colorWell.identifier!.rawValue == "StrokeColorWell") {
             AdvancedPreferences.shared.strokeColor = colorWell.color
+        } else if (colorWell.identifier!.rawValue == "BackgroundColorWell") {
+            AdvancedPreferences.shared.backgroundColor = colorWell.color
         }
         postAdvancedPreferencesChangedNotification()
     }
@@ -117,6 +125,26 @@ class AdvancedPreferencesViewController: NSViewController {
         let opacity = opacityTextField.floatValue
         opacitySlider.doubleValue = Double(opacity)
         AdvancedPreferences.shared.opacity = opacity
+
+        postAdvancedPreferencesChangedNotification()
+    }
+    
+    @IBAction func backgroundOpacitySliderValueChanged(_ sender: Any) {
+        guard let slider = sender as? NSSlider else {
+            return
+        }
+        
+        let opacity = slider.floatValue
+        backgroundOpacityTextField.doubleValue = Double(opacity)
+        AdvancedPreferences.shared.backgroundOpacity = opacity
+        
+        postAdvancedPreferencesChangedNotification()
+    }
+    
+    @IBAction func backgroundOpacityTextFieldValueChanged(_ sender: Any) {
+        let opacity = backgroundOpacityTextField.floatValue
+        backgroundOpacitySlider.doubleValue = Double(opacity)
+        AdvancedPreferences.shared.backgroundOpacity = opacity
 
         postAdvancedPreferencesChangedNotification()
     }

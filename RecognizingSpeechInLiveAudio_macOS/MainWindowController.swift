@@ -9,6 +9,8 @@
 import Cocoa
 
 class MainWindowController: NSWindowController {
+        
+    // MARK: - Lifecycle
     
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -20,8 +22,16 @@ class MainWindowController: NSWindowController {
             forName: Notification.Name(rawValue: generalPreferencesChangedNotificationIdentifier),
             object: nil,
             queue: nil) { notification in
-                self.handleGeneralPreferencesChanged()
+                self.configureWindow()
         }
+        
+        NotificationCenter.default.addObserver(
+            forName: Notification.Name(rawValue: advancedPreferencesChangedNotificationIdentifier),
+            object: nil,
+            queue: nil) { notification in
+                self.configureWindow()
+        }
+        
         window?.isMovableByWindowBackground = true  // 背景をドラッグして移動できるように(TODO: NSSplitViewのサブクラスを設定してから効かなくなっている)
         window?.isOpaque = false
         window?.level = .modalPanel
@@ -31,12 +41,12 @@ class MainWindowController: NSWindowController {
         window?.collectionBehavior.insert(.canJoinAllSpaces)
         window?.collectionBehavior.insert(.fullScreenAuxiliary)
         
-        handleGeneralPreferencesChanged()
+        configureWindow()
     }
     
     // MARK: - Helpers
     
-    private func handleGeneralPreferencesChanged() {
+    private func configureWindow() {
         // ウィンドウ左上のボタンを表示するかどうかの設定
         // オーバレイの場合ときは常時表示しない。またフルスクリーンのときも表示しない。
         var isHiddenWindowButton = false
@@ -71,6 +81,13 @@ class MainWindowController: NSWindowController {
             window?.styleMask.insert(.titled)
             window?.titlebarAppearsTransparent = false
             window?.titleVisibility = .visible
+        }
+        
+        if AdvancedPreferences.shared.backgroundOpacity > 0.0 {
+            if let color = AdvancedPreferences.shared.backgroundColor.usingColorSpace(NSColorSpace.deviceRGB) {
+                window?.backgroundColor = NSColor(red: color.redComponent, green: color.greenComponent, blue: color.blueComponent,
+                                                  alpha: CGFloat(AdvancedPreferences.shared.backgroundOpacity))
+            }
         }
     }
     
