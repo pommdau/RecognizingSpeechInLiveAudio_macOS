@@ -16,8 +16,8 @@ class MainWindowController: NSWindowController {
         super.windowDidLoad()
         
         // DEBUG
-        GeneralPreferences.shared.resetUserDefaults()
-        AppearancePreferences.shared.resetUserDefaults()
+//        GeneralPreferences.shared.resetUserDefaults()
+//        AppearancePreferences.shared.resetUserDefaults()
         
         self.window?.delegate = self
         

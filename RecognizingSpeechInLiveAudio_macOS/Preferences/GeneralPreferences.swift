@@ -26,7 +26,7 @@ class GeneralPreferences {
             UserDefaultsKey.IsOverlay.rawValue : false,
             UserDefaultsKey.ShowingTitleBar.rawValue : false,
             UserDefaultsKey.Language.rawValue : "en-US",
-            UserDefaultsKey.SendingAudio.rawValue : true,
+            UserDefaultsKey.SendingAudio.rawValue : false,
         ])
     }
     

@@ -58,11 +58,11 @@
             <objects>
                 <viewController title="General" id="89y-XT-EI0" customClass="GeneralPreferencesViewController" customModule="RecognizingSpeechInLiveAudio_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="VTC-0R-mov">
-                        <rect key="frame" x="0.0" y="0.0" width="362" height="163"/>
+                        <rect key="frame" x="0.0" y="0.0" width="369" height="199"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XxG-H7-VOn">
-                                <rect key="frame" x="108" y="102" width="110" height="18"/>
+                                <rect key="frame" x="108" y="138" width="110" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Show Title Bar" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="UTM-sD-zzB">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -73,7 +73,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Ov-0u-uc8">
-                                <rect key="frame" x="108" y="124" width="68" height="18"/>
+                                <rect key="frame" x="108" y="160" width="68" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Overlay" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="wlT-A3-RDf">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -84,7 +84,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Ef-qg-pwq">
-                                <rect key="frame" x="49" y="127" width="57" height="16"/>
+                                <rect key="frame" x="49" y="163" width="57" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Window:" id="UQg-Z1-g06">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -93,7 +93,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qI4-Eq-vN5">
-                                <rect key="frame" x="108" y="73" width="68" height="16"/>
+                                <rect key="frame" x="108" y="109" width="68" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Language:" id="4We-WA-gXq">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -102,7 +102,7 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="feV-FX-X7B">
-                                <rect key="frame" x="128" y="41" width="217" height="25"/>
+                                <rect key="frame" x="128" y="77" width="224" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="jx9-zc-W4H">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -114,7 +114,7 @@
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zRg-ql-oD1">
-                                <rect key="frame" x="18" y="73" width="88" height="16"/>
+                                <rect key="frame" x="18" y="109" width="88" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Transcription:" id="Q0Z-TN-jCI">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -123,7 +123,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Iw2-g7-GPw">
-                                <rect key="frame" x="108" y="18" width="228" height="18"/>
+                                <rect key="frame" x="108" y="54" width="228" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Recognize audio over the network" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hPL-sA-dSM">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -133,6 +133,17 @@
                                     <action selector="sendingAudioChanged:" target="89y-XT-EI0" id="U5v-ub-U9X"/>
                                 </connections>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aW2-C2-MUa">
+                                <rect key="frame" x="128" y="20" width="216" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" id="Ao4-0Z-8Gf">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <string key="title">Improves accuracy but reduces 
+processing speed.</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
@@ -144,7 +155,7 @@
                 </viewController>
                 <customObject id="rVW-Ne-VdU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="469" y="-137.5"/>
+            <point key="canvasLocation" x="472.5" y="-119.5"/>
         </scene>
         <!--Appearance-->
         <scene sceneID="EqN-yZ-vnS">
@@ -361,7 +372,7 @@
                 </viewController>
                 <customObject id="S2w-5b-AjP" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="541" y="166"/>
+            <point key="canvasLocation" x="541" y="305"/>
         </scene>
     </scenes>
     <resources>
