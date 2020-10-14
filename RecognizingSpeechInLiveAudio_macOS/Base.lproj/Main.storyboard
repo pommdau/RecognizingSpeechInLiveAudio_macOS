@@ -755,7 +755,7 @@
                                     <constraint firstAttribute="width" constant="32" id="OXX-5o-2h5"/>
                                     <constraint firstAttribute="height" constant="32" id="Pi8-w4-1R4"/>
                                 </constraints>
-                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarRecordStartTemplate" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="6Qg-eD-DU5">
+                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSTouchBarRecordStartTemplate" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="6Qg-eD-DU5">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -765,7 +765,7 @@
                                 </connections>
                             </button>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="vjo-rN-Vom">
-                                <rect key="frame" x="607" y="20" width="32" height="32"/>
+                                <rect key="frame" x="609" y="20" width="32" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="HdJ-1o-OUl"/>
                                     <constraint firstAttribute="width" constant="32" id="bHC-Dg-T8O"/>
@@ -788,7 +788,7 @@
                             <constraint firstItem="NJq-QW-dtj" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="THr-Y0-cWf"/>
                             <constraint firstItem="NJq-QW-dtj" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="4" id="Ylg-tU-QXo"/>
                             <constraint firstAttribute="bottom" secondItem="vjo-rN-Vom" secondAttribute="bottom" constant="20" symbolic="YES" id="w2M-K0-wla"/>
-                            <constraint firstItem="CBU-6O-QGU" firstAttribute="leading" secondItem="vjo-rN-Vom" secondAttribute="trailing" constant="10" symbolic="YES" id="wjE-nD-tK7"/>
+                            <constraint firstItem="CBU-6O-QGU" firstAttribute="leading" secondItem="vjo-rN-Vom" secondAttribute="trailing" constant="8" symbolic="YES" id="wjE-nD-tK7"/>
                             <constraint firstAttribute="trailing" secondItem="NJq-QW-dtj" secondAttribute="trailing" constant="20" symbolic="YES" id="xQG-Fd-jE1"/>
                         </constraints>
                     </view>

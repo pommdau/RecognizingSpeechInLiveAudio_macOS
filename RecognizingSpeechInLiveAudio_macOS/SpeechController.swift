@@ -13,7 +13,7 @@ import Speech
 
 protocol SpeechControllerDelegate: class {
     func didReceiveError(withMessage message: String)
-    func didReceive(withTranscription transcription: String, isFilal: Bool)
+    func didReceive(withTranscription transcription: String, resultStatus: SpeechController.TranscriptionResultStatus)
     func didChange(withStatus status: SpeechController.RecordingStatus)
 }
 
@@ -28,6 +28,12 @@ class SpeechController: NSObject {
         case isStoppingRecording
     }
     
+    public enum TranscriptionResultStatus: String {
+        case isRecording
+        case isFinal
+        case isFinalWithStopButton
+    }
+    
     public var recordingStatus = RecordingStatus.isNotReadyRecording {
         didSet {
             delegate?.didChange(withStatus: recordingStatus)
@@ -40,6 +46,7 @@ class SpeechController: NSObject {
     private let audioEngine = AVAudioEngine()  // オーディオ信号の生成と処理、オーディオの入出力やAudio Nodeのつなぎこみを行うクラス
     
     weak var delegate: SpeechControllerDelegate?
+    private var pushedStopRecordingButton = false  // 録音がストップボタンによって止められたかどうか
     
     // MARK: - Lifecycle
     
@@ -60,11 +67,16 @@ class SpeechController: NSObject {
     
     // MARK: - Helpers
     
+    public func isAvailableForRecording() -> Bool {
+        return !audioEngine.isRunning
+    }
+    
     public func startRecordingButton() {
         if audioEngine.isRunning {
             audioEngine.stop()
             recognitionRequest?.endAudio()
             recordingStatus = .isStoppingRecording
+            pushedStopRecordingButton = true
         } else {
             do {
                 recordingStatus = .isRecording
@@ -107,13 +119,18 @@ class SpeechController: NSObject {
             if let result = result {
                 // Update the text view with the results.
                 print("DEBUG: 🍎\(result.bestTranscription.formattedString)")
-                self.delegate?.didReceive(withTranscription: result.bestTranscription.formattedString, isFilal: false)
+                self.delegate?.didReceive(withTranscription: result.bestTranscription.formattedString,
+                                          resultStatus: .isRecording)
                 isFinal = result.isFinal
             }
             
             if error != nil || isFinal {
                 if let result = result {
-                    self.delegate?.didReceive(withTranscription: result.bestTranscription.formattedString, isFilal: true)
+                    let transcriptionResultStatsu = self.pushedStopRecordingButton ?
+                        SpeechController.TranscriptionResultStatus.isFinalWithStopButton :
+                        SpeechController.TranscriptionResultStatus.isFinal
+                    self.delegate?.didReceive(withTranscription: result.bestTranscription.formattedString,
+                                              resultStatus: transcriptionResultStatsu)
                 }
                 
                 // Stop recognizing speech if there is a problem.
@@ -136,7 +153,7 @@ class SpeechController: NSObject {
         try audioEngine.start()
         
         // Let the user know to start talking.
-        delegate?.didReceive(withTranscription: "(Waiting speech..)", isFilal: false)
+        delegate?.didReceive(withTranscription: "(Waiting speech..)", resultStatus: .isRecording)
         self.recordingStatus = .isRecording
     }
     

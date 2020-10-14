@@ -32,6 +32,8 @@ public class ViewController: NSViewController {
         }
     }
     
+    var restartingTimer: Timer!
+    
     @IBOutlet var textView: NSTextView!
     @IBOutlet weak var recordButton: NSButton!
     @IBOutlet weak var clearButton: NSButton!
@@ -64,6 +66,15 @@ public class ViewController: NSViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Selectors
+    
+    @objc func restartRecoding() {
+        if self.speechController.isAvailableForRecording() {
+            restartingTimer.invalidate()
+            self.recordButtonTapped(self)  // 自動で録音が打ち切られている場合、自動で録音を再開する
+        }
     }
     
     // MARK: - Helpers
@@ -129,6 +140,7 @@ public class ViewController: NSViewController {
         lastTranscription = ""
         currentTranscription = ""
     }
+
 }
 
 // MARK: - SpeechControllerDelegate
@@ -146,18 +158,25 @@ extension ViewController: SpeechControllerDelegate {
         NSApp.terminate(self)
     }
     
-    func didReceive(withTranscription transcription: String, isFilal: Bool) {
-        if isFilal {
+    func didReceive(withTranscription transcription: String, resultStatus: SpeechController.TranscriptionResultStatus) {
+        switch resultStatus {
+        case .isRecording:
+            currentTranscription = transcription
+        case .isFinal, .isFinalWithStopButton:
             currentTranscription = ""
             if lastTranscription.count == 0 {
                 lastTranscription = "\(transcription)"
             } else {
                 lastTranscription = "\(lastTranscription)\n\(transcription)"
             }
-        } else {
-            currentTranscription = transcription
+        }
+
+        if resultStatus == .isFinal {
+            // 自動で録音が止まった場合は自動で再開する
+            restartingTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(restartRecoding), userInfo: nil, repeats: true)
         }
     }
+    
 }
 
 // MARK: - NSWindowDelegate
