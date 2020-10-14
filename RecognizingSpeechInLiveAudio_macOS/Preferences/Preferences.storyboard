@@ -123,9 +123,9 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Iw2-g7-GPw">
-                                <rect key="frame" x="108" y="18" width="196" height="18"/>
+                                <rect key="frame" x="108" y="18" width="228" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Send audio over the network" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hPL-sA-dSM">
+                                <buttonCell key="cell" type="check" title="Recognize audio over the network" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hPL-sA-dSM">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>

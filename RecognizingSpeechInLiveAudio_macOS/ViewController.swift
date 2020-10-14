@@ -138,8 +138,12 @@ extension ViewController: SpeechControllerDelegate {
         recordingStatus = status
     }
     
-    func didReceive(withStatusMessage message: String) {
-        currentTranscription = message
+    func didReceiveError(withMessage message: String) {
+        let alert = NSAlert()
+        alert.messageText = "Error"
+        alert.informativeText = message
+        alert.runModal()
+        NSApp.terminate(self)
     }
     
     func didReceive(withTranscription transcription: String, isFilal: Bool) {

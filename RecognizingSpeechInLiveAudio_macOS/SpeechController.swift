@@ -12,7 +12,7 @@ import Speech
 // MARK: - Protocol SpeechControllerDelegate
 
 protocol SpeechControllerDelegate: class {
-    func didReceive(withStatusMessage message: String)
+    func didReceiveError(withMessage message: String)
     func didReceive(withTranscription transcription: String, isFilal: Bool)
     func didChange(withStatus status: SpeechController.RecordingStatus)
 }
@@ -70,7 +70,7 @@ class SpeechController: NSObject {
                 recordingStatus = .isRecording
                 try startRecording()
             } catch {
-                delegate?.didReceive(withStatusMessage: "Recording Not Available")
+                delegate?.didReceiveError(withMessage: "Recording Not Available")
                 recordingStatus = .isNotReadyRecording
             }
         }
@@ -97,7 +97,6 @@ class SpeechController: NSObject {
             } else {
                 recognitionRequest.requiresOnDeviceRecognition =  true  // オフライン専用にするならtrue
             }
-            print("DEBUG: 🍏\(recognitionRequest.requiresOnDeviceRecognition)")
         }
         
         // Create a recognition task for the speech recognition session.
@@ -137,7 +136,7 @@ class SpeechController: NSObject {
         try audioEngine.start()
         
         // Let the user know to start talking.
-        delegate?.didReceive(withStatusMessage: "(Waiting speech..)")
+        delegate?.didReceive(withTranscription: "(Waiting speech..)", isFilal: false)
         self.recordingStatus = .isRecording
     }
     
@@ -161,13 +160,13 @@ class SpeechController: NSObject {
                         self.recordingStatus = .isReadyRecording
                     }
                 case .denied:
-                    self.delegate?.didReceive(withStatusMessage: "User denied access to speech recognition")
+                    self.delegate?.didReceiveError(withMessage: "User denied access to speech recognition")
                     self.recordingStatus = .isNotReadyRecording
                 case .restricted:
-                    self.delegate?.didReceive(withStatusMessage: "Speech recognition restricted on this device")
+                    self.delegate?.didReceiveError(withMessage: "Speech recognition restricted on this device")
                     self.recordingStatus = .isNotReadyRecording
                 case .notDetermined:
-                    self.delegate?.didReceive(withStatusMessage: "Speech recognition not yet authorized")
+                    self.delegate?.didReceiveError(withMessage: "Speech recognition not yet authorized")
                     self.recordingStatus = .isNotReadyRecording
                 default:
                     self.recordingStatus = .isNotReadyRecording
@@ -186,7 +185,7 @@ extension SpeechController: SFSpeechRecognizerDelegate {
                 self.recordingStatus = .isReadyRecording
             }
         } else {
-            delegate?.didReceive(withStatusMessage: "recognition Not Available")
+            delegate?.didReceiveError(withMessage: "recognition Not Available")
             recordingStatus = .isNotReadyRecording
         }
     }

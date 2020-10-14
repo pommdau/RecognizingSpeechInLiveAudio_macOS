@@ -24,7 +24,7 @@ class GeneralPreferences {
     init() {
         UserDefaults.standard.register(defaults: [
             UserDefaultsKey.IsOverlay.rawValue : false,
-            UserDefaultsKey.ShowingTitleBar.rawValue : true,
+            UserDefaultsKey.ShowingTitleBar.rawValue : false,
             UserDefaultsKey.Language.rawValue : "en-US",
             UserDefaultsKey.SendingAudio.rawValue : true,
         ])
