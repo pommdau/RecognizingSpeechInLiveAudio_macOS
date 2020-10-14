@@ -12,11 +12,12 @@
 		D005683B25137A7500E75A4E /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D005683525137A7400E75A4E /* GeneralPreferences.swift */; };
 		D005683C25137A7500E75A4E /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D005683625137A7400E75A4E /* PreferencesWindow.swift */; };
 		D005683D25137A7500E75A4E /* GeneralPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D005683725137A7500E75A4E /* GeneralPreferencesViewController.swift */; };
-		D005683E25137A7500E75A4E /* AdvancedPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D005683825137A7500E75A4E /* AdvancedPreferences.swift */; };
-		D005683F25137A7500E75A4E /* AdvancedPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D005683925137A7500E75A4E /* AdvancedPreferencesViewController.swift */; };
+		D005683E25137A7500E75A4E /* AppearancePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D005683825137A7500E75A4E /* AppearancePreferences.swift */; };
+		D005683F25137A7500E75A4E /* AppearancePreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D005683925137A7500E75A4E /* AppearancePreferencesViewController.swift */; };
 		D00568412513C60200E75A4E /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00568402513C60200E75A4E /* MainWindowController.swift */; };
 		D05EE0D12534427F00EC2725 /* SFSpeechRecognizer+CheckSupportLanguageInOffline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05EE0D02534427F00EC2725 /* SFSpeechRecognizer+CheckSupportLanguageInOffline.swift */; };
 		D075B756252EE59E00A16563 /* SpeechController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075B755252EE59E00A16563 /* SpeechController.swift */; };
+		D0D1AFD42537175B0015465B /* NSProgressIndicator+SetTintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D1AFD32537175B0015465B /* NSProgressIndicator+SetTintColor.swift */; };
 		D0ED062D2511FD4F003B8AAA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ED062C2511FD4F003B8AAA /* AppDelegate.swift */; };
 		D0ED062F2511FD4F003B8AAA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ED062E2511FD4F003B8AAA /* ViewController.swift */; };
 		D0ED06312511FD55003B8AAA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0ED06302511FD55003B8AAA /* Assets.xcassets */; };
@@ -29,11 +30,12 @@
 		D005683525137A7400E75A4E /* GeneralPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPreferences.swift; sourceTree = "<group>"; };
 		D005683625137A7400E75A4E /* PreferencesWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
 		D005683725137A7500E75A4E /* GeneralPreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPreferencesViewController.swift; sourceTree = "<group>"; };
-		D005683825137A7500E75A4E /* AdvancedPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedPreferences.swift; sourceTree = "<group>"; };
-		D005683925137A7500E75A4E /* AdvancedPreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedPreferencesViewController.swift; sourceTree = "<group>"; };
+		D005683825137A7500E75A4E /* AppearancePreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearancePreferences.swift; sourceTree = "<group>"; };
+		D005683925137A7500E75A4E /* AppearancePreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearancePreferencesViewController.swift; sourceTree = "<group>"; };
 		D00568402513C60200E75A4E /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		D05EE0D02534427F00EC2725 /* SFSpeechRecognizer+CheckSupportLanguageInOffline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SFSpeechRecognizer+CheckSupportLanguageInOffline.swift"; sourceTree = "<group>"; };
 		D075B755252EE59E00A16563 /* SpeechController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechController.swift; sourceTree = "<group>"; };
+		D0D1AFD32537175B0015465B /* NSProgressIndicator+SetTintColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSProgressIndicator+SetTintColor.swift"; sourceTree = "<group>"; };
 		D0ED06292511FD4F003B8AAA /* RecognizingSpeechInLiveAudio_macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecognizingSpeechInLiveAudio_macOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0ED062C2511FD4F003B8AAA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0ED062E2511FD4F003B8AAA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -62,8 +64,8 @@
 				D005683425137A7400E75A4E /* PreferencesTabViewController.swift */,
 				D005683525137A7400E75A4E /* GeneralPreferences.swift */,
 				D005683725137A7500E75A4E /* GeneralPreferencesViewController.swift */,
-				D005683825137A7500E75A4E /* AdvancedPreferences.swift */,
-				D005683925137A7500E75A4E /* AdvancedPreferencesViewController.swift */,
+				D005683825137A7500E75A4E /* AppearancePreferences.swift */,
+				D005683925137A7500E75A4E /* AppearancePreferencesViewController.swift */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -72,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				D05EE0D02534427F00EC2725 /* SFSpeechRecognizer+CheckSupportLanguageInOffline.swift */,
+				D0D1AFD32537175B0015465B /* NSProgressIndicator+SetTintColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -181,15 +184,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0ED062F2511FD4F003B8AAA /* ViewController.swift in Sources */,
-				D005683F25137A7500E75A4E /* AdvancedPreferencesViewController.swift in Sources */,
+				D005683F25137A7500E75A4E /* AppearancePreferencesViewController.swift in Sources */,
 				D005683C25137A7500E75A4E /* PreferencesWindow.swift in Sources */,
 				D005683A25137A7500E75A4E /* PreferencesTabViewController.swift in Sources */,
-				D005683E25137A7500E75A4E /* AdvancedPreferences.swift in Sources */,
+				D005683E25137A7500E75A4E /* AppearancePreferences.swift in Sources */,
 				D0ED062D2511FD4F003B8AAA /* AppDelegate.swift in Sources */,
 				D05EE0D12534427F00EC2725 /* SFSpeechRecognizer+CheckSupportLanguageInOffline.swift in Sources */,
 				D005683D25137A7500E75A4E /* GeneralPreferencesViewController.swift in Sources */,
 				D005683B25137A7500E75A4E /* GeneralPreferences.swift in Sources */,
 				D00568412513C60200E75A4E /* MainWindowController.swift in Sources */,
+				D0D1AFD42537175B0015465B /* NSProgressIndicator+SetTintColor.swift in Sources */,
 				D075B756252EE59E00A16563 /* SpeechController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

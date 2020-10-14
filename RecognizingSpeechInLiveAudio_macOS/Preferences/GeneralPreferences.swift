@@ -24,14 +24,14 @@ class GeneralPreferences {
     init() {
         UserDefaults.standard.register(defaults: [
             UserDefaultsKey.IsOverlay.rawValue : false,
-            UserDefaultsKey.ShowingTitleBar.rawValue : true,
+            UserDefaultsKey.ShowingTitleBar.rawValue : false,
             UserDefaultsKey.Language.rawValue : "en-US",
-            UserDefaultsKey.SendingAudio.rawValue : true,
+            UserDefaultsKey.SendingAudio.rawValue : false,
         ])
     }
     
     // For Debug
-    private func resetUserDefaults() {
+    func resetUserDefaults() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.IsOverlay.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.ShowingTitleBar.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.Language.rawValue)
@@ -83,7 +83,7 @@ class GeneralPreferences {
     var windowFrame: NSRect {
         get {
             guard let windowFrameString = UserDefaults.standard.string(forKey: UserDefaultsKey.WindowFrame.rawValue) else {
-               return NSRect(x: 450, y: 200, width: 1000, height: 750)
+                return NSRect(x: 200, y: 74, width: 1200, height: 300)
             }
             let windowFrame = NSRectFromString(windowFrameString)
             return windowFrame

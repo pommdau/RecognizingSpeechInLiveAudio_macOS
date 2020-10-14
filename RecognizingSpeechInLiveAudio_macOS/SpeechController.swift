@@ -12,8 +12,8 @@ import Speech
 // MARK: - Protocol SpeechControllerDelegate
 
 protocol SpeechControllerDelegate: class {
-    func didReceive(withStatusMessage message: String)
-    func didReceive(withTranscription transcription: String, isFilal: Bool)
+    func didReceiveError(withMessage message: String)
+    func didReceive(withTranscription transcription: String, resultStatus: SpeechController.TranscriptionResultStatus)
     func didChange(withStatus status: SpeechController.RecordingStatus)
 }
 
@@ -28,6 +28,12 @@ class SpeechController: NSObject {
         case isStoppingRecording
     }
     
+    public enum TranscriptionResultStatus: String {
+        case isRecording
+        case isFinal
+        case isFinalWithStopButton
+    }
+    
     public var recordingStatus = RecordingStatus.isNotReadyRecording {
         didSet {
             delegate?.didChange(withStatus: recordingStatus)
@@ -40,6 +46,7 @@ class SpeechController: NSObject {
     private let audioEngine = AVAudioEngine()  // オーディオ信号の生成と処理、オーディオの入出力やAudio Nodeのつなぎこみを行うクラス
     
     weak var delegate: SpeechControllerDelegate?
+    private var pushedStopRecordingButton = false  // 録音がストップボタンによって止められたかどうか
     
     // MARK: - Lifecycle
     
@@ -60,17 +67,22 @@ class SpeechController: NSObject {
     
     // MARK: - Helpers
     
+    public func isAvailableForRecording() -> Bool {
+        return !audioEngine.isRunning
+    }
+    
     public func startRecordingButton() {
         if audioEngine.isRunning {
             audioEngine.stop()
             recognitionRequest?.endAudio()
             recordingStatus = .isStoppingRecording
+            pushedStopRecordingButton = true
         } else {
             do {
                 recordingStatus = .isRecording
                 try startRecording()
             } catch {
-                delegate?.didReceive(withStatusMessage: "Recording Not Available")
+                delegate?.didReceiveError(withMessage: "Recording Not Available")
                 recordingStatus = .isNotReadyRecording
             }
         }
@@ -97,7 +109,6 @@ class SpeechController: NSObject {
             } else {
                 recognitionRequest.requiresOnDeviceRecognition =  true  // オフライン専用にするならtrue
             }
-            print("DEBUG: 🍏\(recognitionRequest.requiresOnDeviceRecognition)")
         }
         
         // Create a recognition task for the speech recognition session.
@@ -108,13 +119,18 @@ class SpeechController: NSObject {
             if let result = result {
                 // Update the text view with the results.
                 print("DEBUG: 🍎\(result.bestTranscription.formattedString)")
-                self.delegate?.didReceive(withTranscription: result.bestTranscription.formattedString, isFilal: false)
+                self.delegate?.didReceive(withTranscription: result.bestTranscription.formattedString,
+                                          resultStatus: .isRecording)
                 isFinal = result.isFinal
             }
             
             if error != nil || isFinal {
                 if let result = result {
-                    self.delegate?.didReceive(withTranscription: result.bestTranscription.formattedString, isFilal: true)
+                    let transcriptionResultStatsu = self.pushedStopRecordingButton ?
+                        SpeechController.TranscriptionResultStatus.isFinalWithStopButton :
+                        SpeechController.TranscriptionResultStatus.isFinal
+                    self.delegate?.didReceive(withTranscription: result.bestTranscription.formattedString,
+                                              resultStatus: transcriptionResultStatsu)
                 }
                 
                 // Stop recognizing speech if there is a problem.
@@ -137,7 +153,7 @@ class SpeechController: NSObject {
         try audioEngine.start()
         
         // Let the user know to start talking.
-        delegate?.didReceive(withStatusMessage: "(Waiting speech..)")
+        delegate?.didReceive(withTranscription: "(Waiting speech..)", resultStatus: .isRecording)
         self.recordingStatus = .isRecording
     }
     
@@ -161,13 +177,13 @@ class SpeechController: NSObject {
                         self.recordingStatus = .isReadyRecording
                     }
                 case .denied:
-                    self.delegate?.didReceive(withStatusMessage: "User denied access to speech recognition")
+                    self.delegate?.didReceiveError(withMessage: "User denied access to speech recognition")
                     self.recordingStatus = .isNotReadyRecording
                 case .restricted:
-                    self.delegate?.didReceive(withStatusMessage: "Speech recognition restricted on this device")
+                    self.delegate?.didReceiveError(withMessage: "Speech recognition restricted on this device")
                     self.recordingStatus = .isNotReadyRecording
                 case .notDetermined:
-                    self.delegate?.didReceive(withStatusMessage: "Speech recognition not yet authorized")
+                    self.delegate?.didReceiveError(withMessage: "Speech recognition not yet authorized")
                     self.recordingStatus = .isNotReadyRecording
                 default:
                     self.recordingStatus = .isNotReadyRecording
@@ -186,7 +202,7 @@ extension SpeechController: SFSpeechRecognizerDelegate {
                 self.recordingStatus = .isReadyRecording
             }
         } else {
-            delegate?.didReceive(withStatusMessage: "recognition Not Available")
+            delegate?.didReceiveError(withMessage: "recognition Not Available")
             recordingStatus = .isNotReadyRecording
         }
     }
