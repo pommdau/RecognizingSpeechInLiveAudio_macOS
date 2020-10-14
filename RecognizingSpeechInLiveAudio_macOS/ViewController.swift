@@ -28,7 +28,7 @@ public class ViewController: NSViewController {
     private var recordingStatus = SpeechController.RecordingStatus.isReadyRecording {
         didSet {
             print("DEBUG: 🐱\(recordingStatus.rawValue)")
-            configureRecordButton()
+            configureRecordButtons()
         }
     }
     
@@ -36,6 +36,7 @@ public class ViewController: NSViewController {
     
     @IBOutlet var textView: NSTextView!
     @IBOutlet weak var recordButton: NSButton!
+    @IBOutlet weak var processingIndicaror: NSProgressIndicator!
     @IBOutlet weak var clearButton: NSButton!
     
     // MARK: View Controller Lifecycle
@@ -44,7 +45,7 @@ public class ViewController: NSViewController {
         super.viewDidLoad()
         
         // 設定ウィンドウからの通知を受け取る設定
-        NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: advancedPreferencesChangedNotificationIdentifier),
+        NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: appearancePreferencesChangedNotificationIdentifier),
                                                object: nil,
                                                queue: nil) { (notification) in
             self.configureTextView()
@@ -61,7 +62,7 @@ public class ViewController: NSViewController {
 
         view.window?.animator().setFrame(GeneralPreferences().windowFrame, display: false)
         configureTextView()
-        configureRecordButton()
+        configureRecordButtons()
     }
     
     deinit {
@@ -80,20 +81,20 @@ public class ViewController: NSViewController {
     // MARK: - Helpers
     
     private func configureTextView() {
-        let advancedPreferences = AdvancedPreferences()
+        let appearancePreferences = AppearancePreferences()
         let attributes: [NSAttributedString.Key : Any] = [
-            .font : NSFont(name: advancedPreferences.font.fontName, size: advancedPreferences.font.pointSize)
+            .font : NSFont(name: appearancePreferences.font.fontName, size: appearancePreferences.font.pointSize)
                 ?? NSFont.boldSystemFont(ofSize: CGFloat(24)),
-            .foregroundColor : advancedPreferences.fontColor,
-            .strokeColor : advancedPreferences.strokeColor,
-            .strokeWidth : -advancedPreferences.strokeWidth
+            .foregroundColor : appearancePreferences.fontColor,
+            .strokeColor : appearancePreferences.strokeColor,
+            .strokeWidth : -appearancePreferences.strokeWidth
         ]
         
         let attibutesString = NSAttributedString(string: textView.string,
                                                  attributes: attributes)
         textView.textStorage?.setAttributedString(attibutesString)
         textView.typingAttributes = attributes
-        textView.layer?.opacity = advancedPreferences.opacity
+        textView.layer?.opacity = appearancePreferences.opacity
     }
     
     private func configureTextViewString() {
@@ -105,28 +106,39 @@ public class ViewController: NSViewController {
         self.textView.scroll(NSPoint(x: 0, y: self.textView.frame.height))
     }
     
-    private func configureRecordButton() {
+    private func configureRecordButtons() {
+        processingIndicaror.set(tintColor: .white)
+        recordButton.image?.isTemplate = true
+        
         switch recordingStatus {
         case .isNotReadyRecording:
             recordButton.image = NSImage(named: "NSTouchBarRecordStartTemplate")
             recordButton.isEnabled = false
-            recordButton.image?.isTemplate = true
+            recordButton.isHidden = false
             recordButton.contentTintColor = .disabledControlTextColor
+            processingIndicaror.isHidden = true
+            processingIndicaror.stopAnimation(self)
         case .isReadyRecording:
             recordButton.image = NSImage(named: "NSTouchBarRecordStartTemplate")
             recordButton.isEnabled = true
-            recordButton.image?.isTemplate = true
+            recordButton.isHidden = false
             recordButton.contentTintColor = .systemRed
+            processingIndicaror.isHidden = true
+            processingIndicaror.stopAnimation(self)
         case .isRecording:
             recordButton.image = NSImage(named: "NSTouchBarRecordStopTemplate")
             recordButton.isEnabled = true
-            recordButton.image?.isTemplate = true
+            recordButton.isHidden = false
             recordButton.contentTintColor = .black
+            processingIndicaror.isHidden = true
+            processingIndicaror.stopAnimation(self)
         case .isStoppingRecording:
             recordButton.image = NSImage(named: "NSTouchBarRecordStartTemplate")
             recordButton.isEnabled = false
-            recordButton.image?.isTemplate = true
+            recordButton.isHidden = true
             recordButton.contentTintColor = .disabledControlTextColor
+            processingIndicaror.isHidden = false
+            processingIndicaror.startAnimation(self)
         }
     }
     

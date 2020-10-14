@@ -83,7 +83,7 @@ class GeneralPreferences {
     var windowFrame: NSRect {
         get {
             guard let windowFrameString = UserDefaults.standard.string(forKey: UserDefaultsKey.WindowFrame.rawValue) else {
-               return NSRect(x: 450, y: 200, width: 1000, height: 750)
+                return NSRect(x: 200, y: 74, width: 1200, height: 300)
             }
             let windowFrame = NSRectFromString(windowFrameString)
             return windowFrame

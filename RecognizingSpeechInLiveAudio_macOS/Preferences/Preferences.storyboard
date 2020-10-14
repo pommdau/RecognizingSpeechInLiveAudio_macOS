@@ -32,7 +32,7 @@
                 <tabViewController selectedTabViewItemIndex="0" tabStyle="toolbar" id="ZKz-B1-Kpd" customClass="PreferencesTabViewController" customModule="RecognizingSpeechInLiveAudio_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem label="General" identifier="General" image="NSPreferencesGeneral" id="Nha-yS-mmW"/>
-                        <tabViewItem label="Advanced" identifier="Advanced" image="NSAdvanced" id="ZGJ-6J-YaQ"/>
+                        <tabViewItem label="Appearance" identifier="Appearance" image="NSColorPanel" id="ZGJ-6J-YaQ"/>
                     </tabViewItems>
                     <viewControllerTransitionOptions key="transitionOptions" allowUserInteraction="YES"/>
                     <tabView key="tabView" type="noTabsNoBorder" id="vDa-Fq-jSa">
@@ -146,10 +146,10 @@
             </objects>
             <point key="canvasLocation" x="469" y="-137.5"/>
         </scene>
-        <!--Advanced-->
+        <!--Appearance-->
         <scene sceneID="EqN-yZ-vnS">
             <objects>
-                <viewController title="Advanced" id="vPa-Ib-ODV" customClass="AdvancedPreferencesViewController" customModule="RecognizingSpeechInLiveAudio_macOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Appearance" id="vPa-Ib-ODV" customClass="AppearancePreferencesViewController" customModule="RecognizingSpeechInLiveAudio_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="KrL-5A-ddO">
                         <rect key="frame" x="0.0" y="0.0" width="505" height="242"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -361,11 +361,11 @@
                 </viewController>
                 <customObject id="S2w-5b-AjP" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="437.5" y="203"/>
+            <point key="canvasLocation" x="541" y="166"/>
         </scene>
     </scenes>
     <resources>
-        <image name="NSAdvanced" width="32" height="32"/>
+        <image name="NSColorPanel" width="32" height="32"/>
         <image name="NSPreferencesGeneral" width="32" height="32"/>
     </resources>
 </document>

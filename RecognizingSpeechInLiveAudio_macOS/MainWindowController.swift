@@ -15,6 +15,10 @@ class MainWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         
+        // DEBUG
+        GeneralPreferences.shared.resetUserDefaults()
+        AppearancePreferences.shared.resetUserDefaults()
+        
         self.window?.delegate = self
         
         // 設定ウィンドウからの通知を受け取る設定
@@ -26,7 +30,7 @@ class MainWindowController: NSWindowController {
         }
         
         NotificationCenter.default.addObserver(
-            forName: Notification.Name(rawValue: advancedPreferencesChangedNotificationIdentifier),
+            forName: Notification.Name(rawValue: appearancePreferencesChangedNotificationIdentifier),
             object: nil,
             queue: nil) { notification in
                 self.configureWindow()
@@ -83,10 +87,10 @@ class MainWindowController: NSWindowController {
             window?.titleVisibility = .visible
         }
         
-        if AdvancedPreferences.shared.backgroundOpacity > 0.0 {
-            if let color = AdvancedPreferences.shared.backgroundColor.usingColorSpace(NSColorSpace.deviceRGB) {
+        if AppearancePreferences.shared.backgroundOpacity > 0.0 {
+            if let color = AppearancePreferences.shared.backgroundColor.usingColorSpace(NSColorSpace.deviceRGB) {
                 window?.backgroundColor = NSColor(red: color.redComponent, green: color.greenComponent, blue: color.blueComponent,
-                                                  alpha: CGFloat(AdvancedPreferences.shared.backgroundOpacity))
+                                                  alpha: CGFloat(AppearancePreferences.shared.backgroundOpacity))
             }
         }
     }

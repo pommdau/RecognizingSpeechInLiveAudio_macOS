@@ -1,5 +1,5 @@
 //
-//  AdvancedPreferences.swift
+//  AppearancePreferences.swift
 //  FontPanelSample
 //
 //  Created by HIROKI IKEUCHI on 2020/01/24.

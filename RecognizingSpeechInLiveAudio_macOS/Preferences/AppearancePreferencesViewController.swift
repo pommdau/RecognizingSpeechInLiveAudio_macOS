@@ -1,5 +1,5 @@
 //
-//  AdvancedPreferencesViewController.swift
+//  AppearancePreferencesViewController.swift
 //  FontPanelSample
 //
 //  Created by HIROKI IKEUCHI on 2020/01/24.
@@ -8,9 +8,9 @@
 
 import Cocoa
 
-let advancedPreferencesChangedNotificationIdentifier = "AdvancedPreferencesChanged"
+let appearancePreferencesChangedNotificationIdentifier = "AppearancePreferencesChanged"
 
-class AdvancedPreferencesViewController: NSViewController {
+class AppearancePreferencesViewController: NSViewController {
     
     // MARK: - Properties
         
@@ -31,16 +31,16 @@ class AdvancedPreferencesViewController: NSViewController {
         super.viewDidLoad()
         
         // UIの初期設定
-        fontNameTextField.stringValue           = String(format: "%@ %d", AdvancedPreferences.shared.font.fontName, Int(AdvancedPreferences.shared.font.pointSize))
-        fontColorWell.color                     = AdvancedPreferences.shared.fontColor
-        strokeColorWell.color                   = AdvancedPreferences.shared.strokeColor
-        strokeWidthTextField.stringValue        = String(format: "%.1f", AdvancedPreferences.shared.strokeWidth)
-        strokeWidthStepper.floatValue           = AdvancedPreferences.shared.strokeWidth
-        opacitySlider.doubleValue               = Double(AdvancedPreferences.shared.opacity)
-        opacityTextField.doubleValue            = Double(AdvancedPreferences.shared.opacity)
-        backgroundColorWell.color               = AdvancedPreferences.shared.backgroundColor
-        backgroundOpacitySlider.doubleValue     = Double(AdvancedPreferences.shared.backgroundOpacity)
-        backgroundOpacityTextField.doubleValue  = Double(AdvancedPreferences.shared.backgroundOpacity)
+        fontNameTextField.stringValue           = String(format: "%@ %d", AppearancePreferences.shared.font.fontName, Int(AppearancePreferences.shared.font.pointSize))
+        fontColorWell.color                     = AppearancePreferences.shared.fontColor
+        strokeColorWell.color                   = AppearancePreferences.shared.strokeColor
+        strokeWidthTextField.stringValue        = String(format: "%.1f", AppearancePreferences.shared.strokeWidth)
+        strokeWidthStepper.floatValue           = AppearancePreferences.shared.strokeWidth
+        opacitySlider.doubleValue               = Double(AppearancePreferences.shared.opacity)
+        opacityTextField.doubleValue            = Double(AppearancePreferences.shared.opacity)
+        backgroundColorWell.color               = AppearancePreferences.shared.backgroundColor
+        backgroundOpacitySlider.doubleValue     = Double(AppearancePreferences.shared.backgroundOpacity)
+        backgroundOpacityTextField.doubleValue  = Double(AppearancePreferences.shared.backgroundOpacity)
     }
     
     override var representedObject: Any? {
@@ -56,8 +56,8 @@ class AdvancedPreferencesViewController: NSViewController {
     
     // MARK: - Helpers
     
-    func postAdvancedPreferencesChangedNotification() {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: advancedPreferencesChangedNotificationIdentifier), object: nil)
+    func postAppearancePreferencesChangedNotification() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: appearancePreferencesChangedNotificationIdentifier), object: nil)
     }
     
     // MARK: - Actions
@@ -75,13 +75,13 @@ class AdvancedPreferencesViewController: NSViewController {
             return
         }
         if (colorWell.identifier!.rawValue == "FontColorWell") {
-            AdvancedPreferences.shared.fontColor = colorWell.color
+            AppearancePreferences.shared.fontColor = colorWell.color
         } else if (colorWell.identifier!.rawValue == "StrokeColorWell") {
-            AdvancedPreferences.shared.strokeColor = colorWell.color
+            AppearancePreferences.shared.strokeColor = colorWell.color
         } else if (colorWell.identifier!.rawValue == "BackgroundColorWell") {
-            AdvancedPreferences.shared.backgroundColor = colorWell.color
+            AppearancePreferences.shared.backgroundColor = colorWell.color
         }
-        postAdvancedPreferencesChangedNotification()
+        postAppearancePreferencesChangedNotification()
     }
     
     @IBAction func strokeWidthChanged(_ sender: NSTextField) {
@@ -97,16 +97,16 @@ class AdvancedPreferencesViewController: NSViewController {
             sender.stringValue = String(format: "%.1f", strokeWidth)
         }
         
-        AdvancedPreferences.shared.strokeWidth = strokeWidth
+        AppearancePreferences.shared.strokeWidth = strokeWidth
         strokeWidthStepper.floatValue = strokeWidth
-        postAdvancedPreferencesChangedNotification()
+        postAppearancePreferencesChangedNotification()
     }
     
     @IBAction func strokeWidthStepperClicked(_ sender: NSStepper) {
         let strokeWidth = sender.floatValue
-        AdvancedPreferences.shared.strokeWidth = strokeWidth
+        AppearancePreferences.shared.strokeWidth = strokeWidth
         strokeWidthTextField.stringValue = String(format: "%.1f", strokeWidth)
-        postAdvancedPreferencesChangedNotification()
+        postAppearancePreferencesChangedNotification()
     }
     
     @IBAction func opacitySliderValueChanged(_ sender: Any) {
@@ -116,17 +116,17 @@ class AdvancedPreferencesViewController: NSViewController {
         
         let opacity = slider.floatValue
         opacityTextField.doubleValue = Double(opacity)
-        AdvancedPreferences.shared.opacity = opacity
+        AppearancePreferences.shared.opacity = opacity
         
-        postAdvancedPreferencesChangedNotification()
+        postAppearancePreferencesChangedNotification()
     }
     
     @IBAction func opacityTextFieldValueChanged(_ sender: Any) {
         let opacity = opacityTextField.floatValue
         opacitySlider.doubleValue = Double(opacity)
-        AdvancedPreferences.shared.opacity = opacity
+        AppearancePreferences.shared.opacity = opacity
 
-        postAdvancedPreferencesChangedNotification()
+        postAppearancePreferencesChangedNotification()
     }
     
     @IBAction func backgroundOpacitySliderValueChanged(_ sender: Any) {
@@ -136,30 +136,30 @@ class AdvancedPreferencesViewController: NSViewController {
         
         let opacity = slider.floatValue
         backgroundOpacityTextField.doubleValue = Double(opacity)
-        AdvancedPreferences.shared.backgroundOpacity = opacity
+        AppearancePreferences.shared.backgroundOpacity = opacity
         
-        postAdvancedPreferencesChangedNotification()
+        postAppearancePreferencesChangedNotification()
     }
     
     @IBAction func backgroundOpacityTextFieldValueChanged(_ sender: Any) {
         let opacity = backgroundOpacityTextField.floatValue
         backgroundOpacitySlider.doubleValue = Double(opacity)
-        AdvancedPreferences.shared.backgroundOpacity = opacity
+        AppearancePreferences.shared.backgroundOpacity = opacity
 
-        postAdvancedPreferencesChangedNotification()
+        postAppearancePreferencesChangedNotification()
     }
 }
 
 // MARK: - NSFontChanging
 
-extension AdvancedPreferencesViewController : NSFontChanging {
+extension AppearancePreferencesViewController : NSFontChanging {
     func changeFont(_ sender: NSFontManager?) {
         guard let fontManager = sender else {
             return
         }
-        let newFont = fontManager.convert(AdvancedPreferences.shared.font)
-        AdvancedPreferences.shared.font = newFont
-        fontNameTextField.stringValue = String(format: "%@ %d", AdvancedPreferences.shared.font.fontName, Int(AdvancedPreferences.shared.font.pointSize))
-        postAdvancedPreferencesChangedNotification()
+        let newFont = fontManager.convert(AppearancePreferences.shared.font)
+        AppearancePreferences.shared.font = newFont
+        fontNameTextField.stringValue = String(format: "%@ %d", AppearancePreferences.shared.font.fontName, Int(AppearancePreferences.shared.font.pointSize))
+        postAppearancePreferencesChangedNotification()
     }
 }
