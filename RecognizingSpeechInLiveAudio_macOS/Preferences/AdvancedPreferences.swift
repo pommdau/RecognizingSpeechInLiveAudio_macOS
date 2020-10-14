@@ -94,8 +94,8 @@ class AdvancedPreferences {
             return color
         }
         
-        set (color) {
-            guard let colorData = try? NSKeyedArchiver.archivedData(withRootObject: backgroundColor, requiringSecureCoding: false) else {
+        set (strokeColor) {
+            guard let colorData = try? NSKeyedArchiver.archivedData(withRootObject: strokeColor, requiringSecureCoding: false) else {
                 return
             }
             UserDefaults.standard.set(colorData, forKey: UserDefaultsKey.strokeColor.rawValue)
