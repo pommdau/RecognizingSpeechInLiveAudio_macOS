@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.3"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,7 +23,11 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
+                                            <connections>
+                                                <segue destination="MsC-ao-pUX" kind="show" id="tp2-el-SpQ"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -680,14 +685,22 @@
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
         </scene>
+        <!--Preferences-->
+        <scene sceneID="t3y-tz-oB1">
+            <objects>
+                <controllerPlaceholder storyboardName="Preferences" id="MsC-ao-pUX" sceneMemberID="viewController"/>
+                <customObject id="QBO-pw-N2C" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-338" y="61"/>
+        </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                <windowController id="B8D-0N-5wS" customClass="MainWindowController" customModule="RecognizingSpeechInLiveAudio_macOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA" customClass="NSPanel">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="533" y="27" width="800" height="227"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="98r-iN-zZc"/>
@@ -699,29 +712,29 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="250"/>
+            <point key="canvasLocation" x="75" y="213.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="RecognizingSpeechInLiveAudio_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="505" height="366"/>
+                        <rect key="frame" x="0.0" y="0.0" width="794" height="239"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NJq-QW-dtj">
-                                <rect key="frame" x="20" y="61" width="465" height="285"/>
+                                <rect key="frame" x="20" y="60" width="754" height="175"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="0nV-JF-T5R">
-                                    <rect key="frame" x="0.0" y="0.0" width="465" height="285"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="754" height="175"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="idf-LH-TgU">
-                                            <rect key="frame" x="0.0" y="0.0" width="465" height="285"/>
+                                        <textView editable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="idf-LH-TgU">
+                                            <rect key="frame" x="0.0" y="0.0" width="754" height="175"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="465" height="285"/>
-                                            <size key="maxSize" width="465" height="10000000"/>
+                                            <size key="minSize" width="754" height="175"/>
+                                            <size key="maxSize" width="754" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
                                     </subviews>
@@ -731,52 +744,78 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Lgf-7m-k9S">
-                                    <rect key="frame" x="449" y="0.0" width="16" height="285"/>
+                                    <rect key="frame" x="738" y="0.0" width="16" height="175"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8zR-Ha-Jsg">
-                                <rect key="frame" x="356" y="13" width="135" height="32"/>
-                                <buttonCell key="cell" type="push" title="Start Recording" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="s9p-wb-x94">
+                            <button hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CBU-6O-QGU">
+                                <rect key="frame" x="742" y="20" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="CBU-6O-QGU" secondAttribute="height" multiplier="1:1" id="6s8-qY-CzM"/>
+                                    <constraint firstAttribute="width" constant="32" id="OXX-5o-2h5"/>
+                                    <constraint firstAttribute="height" constant="32" id="Pi8-w4-1R4"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSTouchBarRecordStartTemplate" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="6Qg-eD-DU5">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <color key="contentTintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
-                                    <action selector="recordButtonTapped:" target="XfG-lQ-9wD" id="Khl-jf-ey0"/>
+                                    <action selector="recordButtonTapped:" target="XfG-lQ-9wD" id="8gu-AD-OBe"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5CX-03-LMH">
-                                <rect key="frame" x="284" y="13" width="72" height="32"/>
-                                <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JgH-jb-SQ5">
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="vjo-rN-Vom">
+                                <rect key="frame" x="702" y="20" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="HdJ-1o-OUl"/>
+                                    <constraint firstAttribute="width" constant="32" id="bHC-Dg-T8O"/>
+                                    <constraint firstAttribute="width" secondItem="vjo-rN-Vom" secondAttribute="height" multiplier="1:1" id="iox-XT-8Fu"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTrashFull" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="5uf-Hr-kJn">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <color key="contentTintColor" name="systemPinkColor" catalog="System" colorSpace="catalog"/>
                                 <connections>
-                                    <action selector="clearButtonTapped:" target="XfG-lQ-9wD" id="ezc-zw-WQY"/>
+                                    <action selector="clearButtonTapped:" target="XfG-lQ-9wD" id="3AG-6l-Nh1"/>
                                 </connections>
                             </button>
+                            <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="RSq-w1-vqY">
+                                <rect key="frame" x="742" y="20" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="15V-1W-UKl"/>
+                                    <constraint firstAttribute="height" constant="32" id="Qlk-3B-gEQ"/>
+                                    <constraint firstAttribute="width" secondItem="RSq-w1-vqY" secondAttribute="height" multiplier="1:1" id="nQv-vO-V9m"/>
+                                </constraints>
+                            </progressIndicator>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="8zR-Ha-Jsg" secondAttribute="bottom" constant="20" id="0N9-R5-usg"/>
-                            <constraint firstAttribute="trailing" secondItem="8zR-Ha-Jsg" secondAttribute="trailing" constant="20" id="3W0-AU-hyk"/>
-                            <constraint firstItem="8zR-Ha-Jsg" firstAttribute="top" secondItem="NJq-QW-dtj" secondAttribute="bottom" constant="20" id="IUS-9H-3Q1"/>
-                            <constraint firstItem="8zR-Ha-Jsg" firstAttribute="leading" secondItem="5CX-03-LMH" secondAttribute="trailing" constant="12" id="MYd-Qe-cFx"/>
-                            <constraint firstItem="NJq-QW-dtj" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="Rag-Ck-ls8"/>
-                            <constraint firstAttribute="bottom" secondItem="5CX-03-LMH" secondAttribute="bottom" constant="20" id="ZhC-s0-ry7"/>
-                            <constraint firstAttribute="trailing" secondItem="NJq-QW-dtj" secondAttribute="trailing" constant="20" id="hCW-HR-ihS"/>
-                            <constraint firstItem="5CX-03-LMH" firstAttribute="top" secondItem="NJq-QW-dtj" secondAttribute="bottom" constant="20" id="lJj-Lo-PK9"/>
-                            <constraint firstItem="NJq-QW-dtj" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="wKa-ML-b5k"/>
+                            <constraint firstAttribute="trailing" secondItem="CBU-6O-QGU" secondAttribute="trailing" constant="20" symbolic="YES" id="0EJ-BW-IwM"/>
+                            <constraint firstAttribute="trailing" secondItem="RSq-w1-vqY" secondAttribute="trailing" constant="20" symbolic="YES" id="CIj-BT-hoe"/>
+                            <constraint firstItem="vjo-rN-Vom" firstAttribute="top" secondItem="NJq-QW-dtj" secondAttribute="bottom" constant="8" symbolic="YES" id="RNs-dU-FeL"/>
+                            <constraint firstAttribute="bottom" secondItem="CBU-6O-QGU" secondAttribute="bottom" constant="20" symbolic="YES" id="RuS-QD-lZj"/>
+                            <constraint firstItem="NJq-QW-dtj" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="THr-Y0-cWf"/>
+                            <constraint firstItem="NJq-QW-dtj" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="4" id="Ylg-tU-QXo"/>
+                            <constraint firstAttribute="bottom" secondItem="RSq-w1-vqY" secondAttribute="bottom" constant="20" symbolic="YES" id="rIC-JC-3PQ"/>
+                            <constraint firstAttribute="bottom" secondItem="vjo-rN-Vom" secondAttribute="bottom" constant="20" symbolic="YES" id="w2M-K0-wla"/>
+                            <constraint firstItem="CBU-6O-QGU" firstAttribute="leading" secondItem="vjo-rN-Vom" secondAttribute="trailing" constant="8" symbolic="YES" id="wjE-nD-tK7"/>
+                            <constraint firstAttribute="trailing" secondItem="NJq-QW-dtj" secondAttribute="trailing" constant="20" symbolic="YES" id="xQG-Fd-jE1"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="clearButton" destination="5CX-03-LMH" id="gZY-nR-5gk"/>
-                        <outlet property="recordButton" destination="8zR-Ha-Jsg" id="d4L-TY-SCo"/>
+                        <outlet property="clearButton" destination="vjo-rN-Vom" id="5gB-XW-GQI"/>
+                        <outlet property="processingIndicaror" destination="RSq-w1-vqY" id="esj-vK-AM4"/>
+                        <outlet property="recordButton" destination="CBU-6O-QGU" id="1z2-UP-GyY"/>
                         <outlet property="textView" destination="idf-LH-TgU" id="Rpe-WU-8TO"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="87.5" y="703"/>
+            <point key="canvasLocation" x="78" y="605"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="NSTouchBarRecordStartTemplate" width="14" height="30"/>
+        <image name="NSTrashFull" width="32" height="32"/>
+    </resources>
 </document>
